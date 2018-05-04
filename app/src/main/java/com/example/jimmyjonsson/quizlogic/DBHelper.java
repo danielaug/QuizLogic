@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DBNAME = "GAMEDB2";
+    public static final String DBNAME = "GAMEDB3";
     public static final int DBVERSION = 1;
     public static final String TABLE_NAME = "USER";
     public static final String COL_ID = "ID";

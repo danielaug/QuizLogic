@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     String currentUser;
-    int test;
     private DBHelper dbHelper;
 
 
@@ -95,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 updateSharedPref();
+                dbHelper.insertValuesIntoSaveTable(currentScoreCounter,countDownValue,counter, userName);
                 Intent intent = new Intent(MainActivity.this, GameOptionActivity.class);
                 startActivity(intent);
 
@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
 
                         if (countDownValue == 0){
                             counter=0;
-                            updateSharedPref();
                             if (checkHighScore(currentUser, currentScore)) {
                                 updateHighScore(currentUser,currentScore);
                         }
@@ -162,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
             countDownValue = 0;
             counter = 0;
             timer.cancel();
-            if (checkHighScore(currentUser, currentScore)) {
-                updateHighScore(currentUser,currentScore);
+            if (checkHighScore(userName, currentScore)) {
+                updateHighScore(userName,currentScore);
             }
             Intent intent = new Intent(MainActivity.this, HighscoreActivity.class);
             tester[0] = currentScore;
@@ -193,14 +192,7 @@ public class MainActivity extends AppCompatActivity {
         updateQuestion(); // moving on the next answer once the user have chosen a answer
     }
 
-    private void displaySplash(){
 
-        if (currentScore == 10){
-
-            //displaying code for the Splashview when all questions are fulfilled
-
-        }
-    }
     private boolean checkHighScore(String currentUser,int currentScore){
         int high = dbHelper.getHighscore(currentUser);
 
@@ -226,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
         timer.cancel();
     }
+
 
 }
 

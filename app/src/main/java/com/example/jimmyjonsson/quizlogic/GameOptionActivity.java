@@ -38,6 +38,7 @@ public class GameOptionActivity extends AppCompatActivity {
         counter = tester[2];
 
 
+
         final String[] menuItems = {"Continue", "New Game", "Highscore", "Quit"};
 
         ListView listView = (ListView) findViewById(R.id.listviewGameOption);

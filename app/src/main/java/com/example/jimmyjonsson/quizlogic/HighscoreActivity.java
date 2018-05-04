@@ -21,7 +21,7 @@ public class HighscoreActivity extends AppCompatActivity {
     private TextView displayHighscore;
     ArrayList<User> userArrayList;
     DBHelper dbHelper;
-    SharedPreferences sharedPreferences;
+
 
 
     @Override
@@ -54,9 +54,8 @@ public class HighscoreActivity extends AppCompatActivity {
         displayScore.setText("Your score: " + score);
 
 
-
-        highscore = dbHelper.getHighscore(userName);
         dbHelper = new DBHelper(this);
+        highscore = dbHelper.getHighscore(userName);
         userArrayList = dbHelper.getUsers();
 
         if(score > highscore) {
