@@ -20,6 +20,7 @@ import java.util.TimerTask;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.countDownValueSaver;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.counter;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.currentScoreCounter;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.tester;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.userName;
 
 public class MainActivity extends AppCompatActivity {
@@ -165,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 updateHighScore(currentUser,currentScore);
             }
             Intent intent = new Intent(MainActivity.this, HighscoreActivity.class);
+            tester[0] = currentScore;
             intent.putExtra("score", currentScore); // pass the current score to the second screen
             startActivity(intent);
 
@@ -200,25 +202,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private boolean checkHighScore(String currentUser,int currentScore){
+        int high = dbHelper.getHighscore(currentUser);
 
-
-        DBHelper dbHelper;
-        ArrayList<User> userList;
-        dbHelper = new DBHelper(this);
-        userList = dbHelper.getUsers();
-        Log.e("KÖRS","Kollar om det är nytt highscore");
-
-
-
-        for (int i = 0;i<userList.size();i++){
-            Log.e("ajaja",currentScore + " Gammalt "+userList.get(i).getHighScore());
-            if (currentUser.equals(userList.get(i).getUsername())&& userList.get(i).getHighScore()<currentScore){
-                Log.e("KÖRS","Det var ett nytt HS return true");
-                return true;
-            }
+        if(high < currentScore) {
+            return true;
+        }
+        else {
+            return false;
         }
 
-        return  false;
 
     }
     private void updateHighScore(String currentUser,int higScore){

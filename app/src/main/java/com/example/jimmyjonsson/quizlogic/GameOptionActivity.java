@@ -15,6 +15,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHelper;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.tester;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.userName;
 
 public class GameOptionActivity extends AppCompatActivity {
 
@@ -26,7 +29,14 @@ public class GameOptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_option);
-        setValue();
+
+
+
+        tester = dbHelper.readFromSave(userName);
+        currentScoreCounter = tester[0];
+        countDownValueSaver = tester[1];
+        counter = tester[2];
+
 
         final String[] menuItems = {"Continue", "New Game", "Highscore", "Quit"};
 
@@ -90,13 +100,6 @@ public class GameOptionActivity extends AppCompatActivity {
 
 
     }
-    public void setValue() {
-        SharedPreferences sharedPreferences = getSharedPreferences("pref", MODE_PRIVATE);
-        //click first button, go to a new fragment
 
-        this.counter = sharedPreferences.getInt("points", 0);
-        this.currentScoreCounter = sharedPreferences.getInt("score", 0);
-        this.countDownValueSaver = sharedPreferences.getInt("countDownValue", 0);
-    }
 }
 

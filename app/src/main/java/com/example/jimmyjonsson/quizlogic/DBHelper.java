@@ -15,13 +15,24 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DBNAME = "GAMEDB";
+    public static final String DBNAME = "GAMEDB2";
     public static final int DBVERSION = 1;
     public static final String TABLE_NAME = "USER";
     public static final String COL_ID = "ID";
     public static final String COL_USERNAME = "USERNAME";
     public static final String COL_PASSWORD = "PASSWORD";
     public static final String COL_HIGHSCORE = "HIGHSCORE";
+
+
+
+    public static final String TABLE_NAME2 = "SAVETABLE";
+    public static final String COL_IDSAVETABLE = "ID";
+    public static final String COL_SCORE = "SCORE";
+    public static final String COL_TIME = "TIME";
+    public static final String COL_QUESTIONR = "QUESTIONR";
+    public static final String COL_USERID = "IDUSER";
+
+
 
     SQLiteDatabase gameDatabaseWrite;
     SQLiteDatabase gameDatabaseRead;
@@ -32,7 +43,9 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE "+ TABLE_NAME + "(" + COL_ID + " INTEGER PRIMARY KEY," + COL_USERNAME + " TEXT," + COL_PASSWORD + " TEXT," + COL_HIGHSCORE + " INTEGER);";
+        String createSaveTable = "CREATE TABLE "+ TABLE_NAME2 + "(" + COL_IDSAVETABLE + " INTEGER PRIMARY KEY," + COL_SCORE + " INTEGER," + COL_TIME + " INTEGER," + COL_QUESTIONR + " INTEGER, " + COL_USERID + " STRING," + " FOREIGN KEY ("+COL_USERID+") REFERENCES " + TABLE_NAME+"("+COL_USERNAME+"));";
         db.execSQL(createTable);
+        db.execSQL(createSaveTable);
 
 
 
@@ -42,6 +55,68 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+
+    public void insertValuesIntoSaveTable (int currentScore, int currentTime, int currentQuestion, String user){
+        gameDatabaseWrite = this.getWritableDatabase();
+
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_SCORE,currentScore);
+        contentValues.put(COL_TIME,currentTime);
+        contentValues.put(COL_QUESTIONR,currentQuestion);
+        contentValues.put(COL_USERID,user);
+
+        gameDatabaseWrite.insert(TABLE_NAME2,null,contentValues);
+        gameDatabaseWrite.close();
+    }
+
+    public int [] readFromSave(String user) {
+        int score = 0;
+        int counter = 0;
+        int value = 0;
+
+
+        gameDatabaseRead = this.getReadableDatabase();
+        int [] myArray = {0,0,0};
+        Cursor c = gameDatabaseRead.rawQuery("SELECT * FROM  SAVETABLE   where IDUSER='"+user+"'" , null);
+
+
+
+        if (c.moveToFirst()) {
+            do {
+
+
+                myArray[0] = c.getInt(1);
+                myArray[1] = c.getInt(2);
+                myArray[2] = c.getInt(3);
+
+
+            } while (c.moveToNext());
+        }
+        return myArray;
+
+    }
+    public int getHighscore(String user) {
+        int highscore = 0;
+        gameDatabaseRead = this.getReadableDatabase();
+
+        Cursor c = gameDatabaseRead.rawQuery("SELECT * FROM USER where USERNAME='" + user + "'", null);
+
+
+        if (c.moveToFirst()) {
+            do {
+
+                highscore = c.getInt(3);
+
+
+
+            } while (c.moveToNext());
+        }
+        return highscore;
+
+    }
+
 
     public void addUser (String username, String password){
         gameDatabaseWrite = this.getWritableDatabase();

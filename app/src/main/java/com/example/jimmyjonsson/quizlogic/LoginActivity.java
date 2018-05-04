@@ -18,7 +18,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 public static String userName;
                 public ArrayList<User> userList;
-                private DBHelper dbHelper;
+                public static int [] tester;
+                public static DBHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +55,14 @@ public class LoginActivity extends AppCompatActivity {
                 if (authentication(usernameField.getText().toString(),passwordField.getText().toString())){
                     Log.e("test","Lösenord stämmde");
                     userName = usernameField.getText().toString();
-                    SharedPreferences sharedPreferences = getSharedPreferences("pref", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("userName", userName);
-                    editor.commit();
+                    tester = dbHelper.readFromSave(userName);
+                    for(int i = 0; i < tester.length; i++) {
+                        Log.e("H", Integer.toString(tester[i]));
+                    }
+
+
                     startActivity(intent);
+
 
                 }
 

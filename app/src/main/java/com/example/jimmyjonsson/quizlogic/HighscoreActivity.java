@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.counter;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.currentScoreCounter;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.userName;
 
 public class HighscoreActivity extends AppCompatActivity {
 
@@ -21,7 +22,7 @@ public class HighscoreActivity extends AppCompatActivity {
     ArrayList<User> userArrayList;
     DBHelper dbHelper;
     SharedPreferences sharedPreferences;
-    String currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,50 +40,43 @@ public class HighscoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 counter = 0;
-                updateSharedPref();
+                dbHelper.insertValuesIntoSaveTable(0,0,0,userName);
                 Intent intent = new Intent(HighscoreActivity.this, GameOptionActivity.class);
                 startActivity(intent);
 
 
             }
         });
-
+        int highscore;
         // receive the score from last activity by Intent
         Intent intent = getIntent();
         int score = intent.getIntExtra("score", 0);
         displayScore.setText("Your score: " + score);
 
 
-        SharedPreferences myPref = getPreferences(MODE_PRIVATE);
-        int highscore;
-        sharedPreferences = getSharedPreferences("pref",MODE_PRIVATE);
-        currentUser = sharedPreferences.getString("userName",null);
+
+        highscore = dbHelper.getHighscore(userName);
         dbHelper = new DBHelper(this);
         userArrayList = dbHelper.getUsers();
-        Log.e("asdasuser",currentUser);
 
-        for (int i = 0; i<userArrayList.size();i++){
+        if(score > highscore) {
+            dbHelper.newHighScore(userName,score);
+            displayHighscore.setText("High score: " + score);
 
-            if (currentUser.equals(userArrayList.get(i).getUsername())){
-                highscore = userArrayList.get(i).getHighScore();
-                displayHighscore.setText("High score: " + highscore);
-                Log.e("test","hittat HS" + highscore );
-            }
+        } else {
+            displayHighscore.setText("High score: " + highscore);
         }
 
+
     }
+
+
 
     public void onClick(View view) {
         Intent intent = new Intent(HighscoreActivity.this, MainActivity.class);
         startActivity(intent);
     }
-    private void updateSharedPref(){
-        SharedPreferences sharedPreferences1 = getSharedPreferences("pref", MODE_PRIVATE);        //initialize the sharedpreference by specifying file name and MODE PRIVATE, means it can only be used by this app.
-        SharedPreferences.Editor editor = sharedPreferences1.edit();   //make it possible to edit.
 
-        editor.putInt("points", counter);       //save how many points  user quit with
-        editor.commit();
-}
 }
 
 
