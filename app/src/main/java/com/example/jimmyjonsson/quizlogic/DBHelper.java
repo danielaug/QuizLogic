@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
+
+
     public static final String DBNAME = "GAMEDB3";
     public static final int DBVERSION = 1;
     public static final String TABLE_NAME = "USER";
@@ -46,6 +48,8 @@ public class DBHelper extends SQLiteOpenHelper {
         String createSaveTable = "CREATE TABLE "+ TABLE_NAME2 + "(" + COL_IDSAVETABLE + " INTEGER PRIMARY KEY," + COL_SCORE + " INTEGER," + COL_TIME + " INTEGER," + COL_QUESTIONR + " INTEGER, " + COL_USERID + " STRING," + " FOREIGN KEY ("+COL_USERID+") REFERENCES " + TABLE_NAME+"("+COL_USERNAME+"));";
         db.execSQL(createTable);
         db.execSQL(createSaveTable);
+        String url;
+        System.out.println("test");
 
 
 
