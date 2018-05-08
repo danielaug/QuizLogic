@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private DBHelper dbHelper;
+    private DBHandler dbHandler;
     private String regUser = "Username:";
     private String regPass = "Password: ";
     public ArrayList<User> userList;
@@ -29,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        dbHelper = new DBHelper(this);
+        dbHandler = new DBHandler();
         Button okButton = (Button) findViewById(R.id.okButton);
         Button backButton = (Button) findViewById(R.id.backButton);
         final TextView userNameTextView = (TextView) findViewById(R.id.userNameTextView);
@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText textPassword = (EditText) findViewById(R.id.plainTextPass);
 
         userList = new ArrayList<>();
-        userList = dbHelper.getUsers();
+        userList = dbHandler.getPLayer();
 
         userNameTextView.setText(regUser);
         passwordTextView.setText(regPass);
@@ -68,7 +68,9 @@ public class RegisterActivity extends AppCompatActivity {
                             });
                     alertDialog.show();
                 } else {
-                    dbHelper.addUser(newUser, newPass);
+                    dbHandler.addPlayer(2,newUser, newPass,0);
+                   int idOfPlayer = dbHandler.getIDofUserName(newUser);
+                    dbHandler.updateSaveTable(0,0,0,idOfPlayer);
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
