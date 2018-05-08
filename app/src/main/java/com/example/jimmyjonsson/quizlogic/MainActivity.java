@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     Random rng = new Random();
     List<Integer> rngchoices;
+    List<Integer> rngQuestions =  rng.ints(0,10).distinct().limit(10).boxed().collect(Collectors.<Integer>toList());;
 
 
 
@@ -149,58 +150,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateQuestion(){
+
+
         // check if we are not outside array bounds for questions
         if (currentQuestionNumber < questionLibrary.getLength() ){
 
             rngchoices = rng.ints(1, 5).distinct().limit(4).boxed().collect(Collectors.<Integer>toList());
 
-            questionView.setText(questionLibrary.getQuestion(currentQuestionNumber)); //Update questionfield
+            questionView.setText(questionLibrary.getQuestion(rngQuestions.get(currentQuestionNumber))); //Update questionfield
 
-            //Update 4 different choices based on the question
+            /*Randomize the contents of the multiple choices*/
 
             if (rngchoices.get(0) == 1)
-                buttonChoice1.setText(questionLibrary.getChoice(currentQuestionNumber, 1));
+                buttonChoice1.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 1));
             else if (rngchoices.get(0) == 2)
-                buttonChoice1.setText(questionLibrary.getChoice(currentQuestionNumber, 2));
+                buttonChoice1.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 2));
             else if (rngchoices.get(0) == 3)
-                buttonChoice1.setText(questionLibrary.getChoice(currentQuestionNumber, 3));
+                buttonChoice1.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 3));
             else if (rngchoices.get(0) == 4)
-                buttonChoice1.setText(questionLibrary.getChoice(currentQuestionNumber, 4));
+                buttonChoice1.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 4));
 
             if (rngchoices.get(1) == 1)
-                buttonChoice2.setText(questionLibrary.getChoice(currentQuestionNumber, 1));
+                buttonChoice2.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 1));
             else if (rngchoices.get(1) == 2)
-                buttonChoice2.setText(questionLibrary.getChoice(currentQuestionNumber, 2));
+                buttonChoice2.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 2));
             else if (rngchoices.get(1) == 3)
-                buttonChoice2.setText(questionLibrary.getChoice(currentQuestionNumber, 3));
+                buttonChoice2.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 3));
             else if (rngchoices.get(1) == 4)
-                buttonChoice2.setText(questionLibrary.getChoice(currentQuestionNumber, 4));
+                buttonChoice2.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 4));
 
             if (rngchoices.get(2) == 1)
-                buttonChoice3.setText(questionLibrary.getChoice(currentQuestionNumber, 1));
+                buttonChoice3.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 1));
             else if (rngchoices.get(2) == 2)
-                buttonChoice3.setText(questionLibrary.getChoice(currentQuestionNumber, 2));
+                buttonChoice3.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 2));
             else if (rngchoices.get(2) == 3)
-                buttonChoice3.setText(questionLibrary.getChoice(currentQuestionNumber, 3));
+                buttonChoice3.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 3));
             else if (rngchoices.get(2) == 4)
-                buttonChoice3.setText(questionLibrary.getChoice(currentQuestionNumber, 4));
+                buttonChoice3.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 4));
 
             if (rngchoices.get(3) == 1)
-                buttonChoice4.setText(questionLibrary.getChoice(currentQuestionNumber, 1));
+                buttonChoice4.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 1));
             else if (rngchoices.get(3) == 2)
-                buttonChoice4.setText(questionLibrary.getChoice(currentQuestionNumber, 2));
+                buttonChoice4.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 2));
             else if (rngchoices.get(3) == 3)
-                buttonChoice4.setText(questionLibrary.getChoice(currentQuestionNumber, 3));
+                buttonChoice4.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 3));
             else if (rngchoices.get(3) == 4)
-                buttonChoice4.setText(questionLibrary.getChoice(currentQuestionNumber, 4));
+                buttonChoice4.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 4));
 
-            /*
-            buttonChoice1.setText(questionLibrary.getChoice(currentQuestionNumber, 1));
-            buttonChoice2.setText(questionLibrary.getChoice(currentQuestionNumber, 2));
-            buttonChoice3.setText(questionLibrary.getChoice(currentQuestionNumber, 3));
-            buttonChoice4.setText(questionLibrary.getChoice(currentQuestionNumber,4));
-            */
-            correctAnswerCheck = questionLibrary.getCorrectAnswer(currentQuestionNumber);
+
+            correctAnswerCheck = questionLibrary.getCorrectAnswer(rngQuestions.get(currentQuestionNumber));
             currentQuestionNumber++;
 
         }
