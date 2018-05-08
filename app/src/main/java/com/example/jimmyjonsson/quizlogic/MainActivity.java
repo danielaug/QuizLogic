@@ -14,8 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.countDownValueSaver;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.counter;
@@ -52,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
     String currentUser;
     private DBHelper dbHelper;
 
+    Random rng = new Random();
+    List<Integer> rngchoices;
+
 
 
 
@@ -67,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
         currentQuestionNumber = counter;
         currentScore = currentScoreCounter;
         countDownValue = countDownValueSaver;
+
+
+
         dbHelper = new DBHelper(this);
 
 
@@ -143,16 +152,54 @@ public class MainActivity extends AppCompatActivity {
         // check if we are not outside array bounds for questions
         if (currentQuestionNumber < questionLibrary.getLength() ){
 
-
+            rngchoices = rng.ints(1, 5).distinct().limit(4).boxed().collect(Collectors.<Integer>toList());
 
             questionView.setText(questionLibrary.getQuestion(currentQuestionNumber)); //Update questionfield
 
             //Update 4 different choices based on the question
+
+            if (rngchoices.get(0) == 1)
+                buttonChoice1.setText(questionLibrary.getChoice(currentQuestionNumber, 1));
+            else if (rngchoices.get(0) == 2)
+                buttonChoice1.setText(questionLibrary.getChoice(currentQuestionNumber, 2));
+            else if (rngchoices.get(0) == 3)
+                buttonChoice1.setText(questionLibrary.getChoice(currentQuestionNumber, 3));
+            else if (rngchoices.get(0) == 4)
+                buttonChoice1.setText(questionLibrary.getChoice(currentQuestionNumber, 4));
+
+            if (rngchoices.get(1) == 1)
+                buttonChoice2.setText(questionLibrary.getChoice(currentQuestionNumber, 1));
+            else if (rngchoices.get(1) == 2)
+                buttonChoice2.setText(questionLibrary.getChoice(currentQuestionNumber, 2));
+            else if (rngchoices.get(1) == 3)
+                buttonChoice2.setText(questionLibrary.getChoice(currentQuestionNumber, 3));
+            else if (rngchoices.get(1) == 4)
+                buttonChoice2.setText(questionLibrary.getChoice(currentQuestionNumber, 4));
+
+            if (rngchoices.get(2) == 1)
+                buttonChoice3.setText(questionLibrary.getChoice(currentQuestionNumber, 1));
+            else if (rngchoices.get(2) == 2)
+                buttonChoice3.setText(questionLibrary.getChoice(currentQuestionNumber, 2));
+            else if (rngchoices.get(2) == 3)
+                buttonChoice3.setText(questionLibrary.getChoice(currentQuestionNumber, 3));
+            else if (rngchoices.get(2) == 4)
+                buttonChoice3.setText(questionLibrary.getChoice(currentQuestionNumber, 4));
+
+            if (rngchoices.get(3) == 1)
+                buttonChoice4.setText(questionLibrary.getChoice(currentQuestionNumber, 1));
+            else if (rngchoices.get(3) == 2)
+                buttonChoice4.setText(questionLibrary.getChoice(currentQuestionNumber, 2));
+            else if (rngchoices.get(3) == 3)
+                buttonChoice4.setText(questionLibrary.getChoice(currentQuestionNumber, 3));
+            else if (rngchoices.get(3) == 4)
+                buttonChoice4.setText(questionLibrary.getChoice(currentQuestionNumber, 4));
+
+            /*
             buttonChoice1.setText(questionLibrary.getChoice(currentQuestionNumber, 1));
             buttonChoice2.setText(questionLibrary.getChoice(currentQuestionNumber, 2));
             buttonChoice3.setText(questionLibrary.getChoice(currentQuestionNumber, 3));
             buttonChoice4.setText(questionLibrary.getChoice(currentQuestionNumber,4));
-
+            */
             correctAnswerCheck = questionLibrary.getCorrectAnswer(currentQuestionNumber);
             currentQuestionNumber++;
 
