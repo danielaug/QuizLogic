@@ -23,8 +23,9 @@ import java.util.stream.Collectors;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.countDownValueSaver;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.counter;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.currentScoreCounter;
-import static com.example.jimmyjonsson.quizlogic.LoginActivity.tester;
-import static com.example.jimmyjonsson.quizlogic.LoginActivity.userName;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.continueButtonSaveHolder;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHandler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     Random rng = new Random();
     List<Integer> rngchoices;
-    List<Integer> rngQuestions =  rng.ints(0,10).distinct().limit(10).boxed().collect(Collectors.<Integer>toList());;
+    List<Integer> rngQuestions =  rng.ints(0,10).distinct().limit(10).boxed().collect(Collectors.<Integer>toList());
 
 
 
@@ -74,13 +75,6 @@ public class MainActivity extends AppCompatActivity {
         currentQuestionNumber = counter;
         currentScore = currentScoreCounter;
         countDownValue = countDownValueSaver;
-
-
-
-        dbHelper = new DBHelper(this);
-
-
-
 
 
         sharedPreferences = getSharedPreferences("pref",MODE_PRIVATE);
@@ -104,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 updateSharedPref();
-                dbHelper.insertValuesIntoSaveTable(currentScoreCounter,countDownValue,counter, userName);
+                dbHandler.updateSaveTable(currentScore,currentQuestionNumber,countDownValue,userNameID);
                 Intent intent = new Intent(MainActivity.this, GameOptionActivity.class);
                 startActivity(intent);
 
@@ -132,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
 
                         if (countDownValue == 0){
                             counter=0;
-                            if (checkHighScore(currentUser, currentScore)) {
-                                updateHighScore(currentUser,currentScore);
-                        }
+                            if (checkHighScore(userNameID, currentScore)) {
+                                updateHighScore(userNameID, currentScore);
+                            }
                             Intent intentToResult = new Intent(context, HighscoreActivity.class);
                             intentToResult.putExtra("score",currentScore);
                             context.startActivity(intentToResult);
@@ -206,11 +200,11 @@ public class MainActivity extends AppCompatActivity {
             countDownValue = 0;
             counter = 0;
             timer.cancel();
-            if (checkHighScore(userName, currentScore)) {
-                updateHighScore(userName,currentScore);
+            if (checkHighScore(userNameID, currentScore)) {
+                updateHighScore(userNameID, currentScore);
             }
             Intent intent = new Intent(MainActivity.this, HighscoreActivity.class);
-            tester[0] = currentScore;
+            continueButtonSaveHolder[0] = currentScore;
             intent.putExtra("score", currentScore); // pass the current score to the second screen
             startActivity(intent);
 
@@ -238,22 +232,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private boolean checkHighScore(String currentUser,int currentScore){
-        int high = dbHelper.getHighscore(currentUser);
+    private boolean checkHighScore(int user,int currentScore) {
+        int high = dbHandler.getHighScore(user);
+        Log.e("The highscore", Integer.toString(high));
 
-        if(high < currentScore) {
+        if (high < currentScore) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
 
-
     }
-    private void updateHighScore(String currentUser,int higScore){
+    private void updateHighScore(int currentUser,int higScore){
         Log.e("KÖRS","Lägger in nytt highscore");
-        dbHelper.newHighScore(currentUser,higScore);
+        dbHandler.newHighScore(currentUser,higScore);
     }
+
+
+
     private void updateSharedPref(){
         SharedPreferences sharedPreferences1 = getSharedPreferences("pref", MODE_PRIVATE);        //initialize the sharedpreference by specifying file name and MODE PRIVATE, means it can only be used by this app.
         SharedPreferences.Editor editor = sharedPreferences1.edit();   //make it possible to edit.

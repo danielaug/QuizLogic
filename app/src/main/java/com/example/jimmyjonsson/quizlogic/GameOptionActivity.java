@@ -15,15 +15,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHelper;
-import static com.example.jimmyjonsson.quizlogic.LoginActivity.tester;
-import static com.example.jimmyjonsson.quizlogic.LoginActivity.userName;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHandler;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.continueButtonSaveHolder;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
+
 
 public class GameOptionActivity extends AppCompatActivity {
 
     public static int counter;
     public static int currentScoreCounter;
     public static int countDownValueSaver;
+    public LoginActivity loginActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +34,10 @@ public class GameOptionActivity extends AppCompatActivity {
 
 
 
-        tester = dbHelper.readFromSave(userName);
-        currentScoreCounter = tester[0];
-        countDownValueSaver = tester[1];
-        counter = tester[2];
+        continueButtonSaveHolder = dbHandler.readFromSave(userNameID);
+        currentScoreCounter = continueButtonSaveHolder[0];
+        countDownValueSaver = continueButtonSaveHolder[2];
+        counter = continueButtonSaveHolder[1];
 
 
 

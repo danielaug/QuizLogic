@@ -16,19 +16,19 @@ import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
-                public static String userName;
-                public ArrayList<User> userList;
-                public static int [] tester;
-                public static DBHelper dbHelper;
+    public static int userNameID;
+    public ArrayList<User> userList;
+    public static  DBHandler dbHandler;
+    public static int [] continueButtonSaveHolder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         userList = new ArrayList<>();
-        dbHelper = new DBHelper(this);
-        dbHelper.preDefinedUsers();
-        userList = dbHelper.getUsers();
+        dbHandler = new DBHandler();
+        userList = dbHandler.getPLayer();
 
 
         Button button = (Button) findViewById(R.id.buttonloginMenu);
@@ -53,12 +53,12 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, GameOptionActivity.class);
                 Log.e("test","Knappen klcaskda");
                 if (authentication(usernameField.getText().toString(),passwordField.getText().toString())){
-                    Log.e("test","Lösenord stämmde");
-                    userName = usernameField.getText().toString();
-                    tester = dbHelper.readFromSave(userName);
-                    for(int i = 0; i < tester.length; i++) {
-                        Log.e("H", Integer.toString(tester[i]));
+                    userNameID = dbHandler.getIDofUserName(usernameField.getText().toString());
+                    continueButtonSaveHolder = dbHandler.readFromSave(userNameID);
+                    for(int i = 0; i < continueButtonSaveHolder.length; i++) {
+                        Log.e("SICK MAYN", Integer.toString(continueButtonSaveHolder[i]));
                     }
+
 
 
                     startActivity(intent);

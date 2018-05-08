@@ -13,14 +13,14 @@ import java.util.ArrayList;
 
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.counter;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.currentScoreCounter;
-import static com.example.jimmyjonsson.quizlogic.LoginActivity.userName;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
 
 public class HighscoreActivity extends AppCompatActivity {
 
     private TextView displayScore;
     private TextView displayHighscore;
     ArrayList<User> userArrayList;
-    DBHelper dbHelper;
+    DBHandler dbHandler;
 
 
 
@@ -40,7 +40,7 @@ public class HighscoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 counter = 0;
-                dbHelper.insertValuesIntoSaveTable(0,0,0,userName);
+                dbHandler.updateSaveTable(0,0,0,userNameID);
                 Intent intent = new Intent(HighscoreActivity.this, GameOptionActivity.class);
                 startActivity(intent);
 
@@ -54,12 +54,12 @@ public class HighscoreActivity extends AppCompatActivity {
         displayScore.setText("Your score: " + score);
 
 
-        dbHelper = new DBHelper(this);
-        highscore = dbHelper.getHighscore(userName);
-        userArrayList = dbHelper.getUsers();
+        dbHandler = new DBHandler();
+        userArrayList = dbHandler.getPLayer();
+        highscore = dbHandler.getHighScore(userNameID);
 
         if(score > highscore) {
-            dbHelper.newHighScore(userName,score);
+            dbHandler.newHighScore(userNameID,score);
             displayHighscore.setText("High score: " + score);
 
         } else {
