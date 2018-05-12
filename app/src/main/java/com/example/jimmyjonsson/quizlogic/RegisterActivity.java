@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,7 +71,9 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     dbHandler.addPlayer(newUser, newPass,0);
                    int idOfPlayer = dbHandler.getIDofUserName(newUser);
-                    dbHandler.updateSaveTable(0,0,0,idOfPlayer);
+                    Log.e("CheckID", Integer.toString(idOfPlayer));
+                    dbHandler.insertSaveTable(0,0,0,idOfPlayer);
+
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
