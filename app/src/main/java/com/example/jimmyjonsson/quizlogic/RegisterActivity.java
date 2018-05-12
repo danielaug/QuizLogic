@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
                             });
                     alertDialog.show();
                 } else {
-                    dbHandler.addPlayer(2,newUser, newPass,0);
+                    dbHandler.addPlayer(newUser, newPass,0);
                    int idOfPlayer = dbHandler.getIDofUserName(newUser);
                     dbHandler.updateSaveTable(0,0,0,idOfPlayer);
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);

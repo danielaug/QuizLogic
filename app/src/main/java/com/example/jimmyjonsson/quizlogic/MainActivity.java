@@ -3,8 +3,6 @@ package com.example.jimmyjonsson.quizlogic;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.CountDownTimer;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     String currentUser;
-    private DBHelper dbHelper;
+
 
     Random rng = new Random();
     List<Integer> rngchoices;

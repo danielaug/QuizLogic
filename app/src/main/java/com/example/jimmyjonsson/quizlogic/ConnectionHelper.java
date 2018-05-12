@@ -13,17 +13,14 @@ import java.sql.SQLException;
  */
 
 public class ConnectionHelper {
-    String ip,db,DBUserNameStr,DBPasswordStr;
+
 
     @SuppressLint("NewApi")
     public Connection connectionclasss()
     {
 
         // Declaring Server ip, username, database name and password
-        ip = "127.0.0.1";
-        db = "atmdb";
-        DBUserNameStr = "root";
-        DBPasswordStr = "root";
+
         // Declaring Server ip, username, database name and password
 
 

@@ -1,10 +1,8 @@
 package com.example.jimmyjonsson.quizlogic;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.counter;
-import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.currentScoreCounter;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
 
 public class HighscoreActivity extends AppCompatActivity {

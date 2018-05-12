@@ -16,7 +16,7 @@ public class DBHandler {
     String ConnectionResult = "";
     Boolean isSuccess = false;
 
-    public void addPlayer(int idPlayer, String userName, String password, int highscore) {
+    public void addPlayer(String userName, String password, int highscore) {
 
 
         try {
@@ -35,15 +35,14 @@ public class DBHandler {
 
 
                     // the mysql insert statement
-                    String query = " insert into user (iduser,userName, password, highscore)"
-                            + " values (?, ?, ?, ?)";
+                    String query = " insert into user (userName, password, highscore)"
+                            + " values (?, ?, ?)";
 
                     // create the mysql insert preparedstatement
                     PreparedStatement preparedStmt = conn.prepareStatement(query);
-                    preparedStmt.setInt(1, idPlayer);
-                    preparedStmt.setString(2, userName);
-                    preparedStmt.setString(3, password);
-                    preparedStmt.setInt(4, highscore);
+                    preparedStmt.setString(1, userName);
+                    preparedStmt.setString(2, password);
+                    preparedStmt.setInt(3, highscore);
 
                     // execute the preparedstatement
                     preparedStmt.execute();
@@ -117,6 +116,59 @@ public class DBHandler {
 
 
     }
+
+    public void insertSaveTable(int high, int counter, int time, int userID) {
+
+
+        try {
+            ConnectionHelper conStr = new ConnectionHelper();
+            connect = conStr.connectionclasss();        // Connect to database
+            if (connect == null) {
+                ConnectionResult = "Check Your Internet Access!";
+            } else {
+
+                try {
+                    // create a mysql database connection
+                    String myDriver = "com.mysql.jdbc.Driver";
+                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
+                    Class.forName(myDriver);
+                    Connection conn = DriverManager.getConnection(myUrl);
+
+
+                    // the mysql insert statement
+
+                    PreparedStatement pstm = conn.prepareStatement("INSERT INTO save (highscore,counter,time,user_iduser) VALUES (?,?,?,?)");
+                    pstm.setInt(1, high);
+                    pstm.setInt(2, counter);
+                    pstm.setInt(3, time);
+                    pstm.setInt(4,userID);
+                    pstm.executeUpdate();
+
+                    // execute the preparedstatement
+
+
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("Got an exception!");
+                    System.err.println(e.getMessage());
+                }
+            }
+
+
+            ConnectionResult = " successful";
+            isSuccess = true;
+            connect.close();
+
+        } catch (Exception ex) {
+            isSuccess = false;
+            ConnectionResult = ex.getMessage();
+        }
+
+
+    }
+
+
+
 
     public ArrayList<User> getPLayer() {
         String m = null;
