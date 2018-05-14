@@ -38,7 +38,7 @@ public class GameOptionActivity extends AppCompatActivity {
 
 
 
-        final String[] menuItems = {"Continue", "New Game", "Highscore", "Quit"};
+        final String[] menuItems = {"Continue", "New Game", "Challenge Another Player", "Highscore", "Quit"};
 
         ListView listView = (ListView) findViewById(R.id.listviewGameOption);
 
@@ -74,12 +74,17 @@ public class GameOptionActivity extends AppCompatActivity {
 
 
                 }
-                if(position == 2) {
+                if (position == 2){
+                    Intent intent = new Intent(GameOptionActivity.this, ChooseOpponentActivity.class);
+                    startActivity(intent);
+                }
+
+                if(position == 3) {
                     Intent intent = new Intent(GameOptionActivity.this, HighscoreActivity.class);
                     startActivity(intent);
                 }
 
-                if (position == 3){
+                if (position == 4){
                     SharedPreferences sharedPreferences1 = getSharedPreferences("pref", MODE_PRIVATE);        //initialize the sharedpreference by specifying file name and MODE PRIVATE, means it can only be used by this app.
                     SharedPreferences.Editor editor = sharedPreferences1.edit();   //make it possible to edit.
                     editor.putInt("points", counter);       //save how many points  user quit with
