@@ -417,8 +417,64 @@ public class DBHandler {
     }
 
 
-    /*
-    public void inviteToMultiPlayerMatch(int playerOneID, int playerTwoID, boolean opponentResponse, int highscorePlayerOne, int highscorePlayerTwo) {
+    public boolean canInvitationBeSent(int playerOneID){
+        boolean invite = false;
+        boolean player = false;
+
+        try {
+            ConnectionHelper conStr = new ConnectionHelper();
+            connect = conStr.connectionclasss();        // Connect to database
+            if (connect == null) {
+                ConnectionResult = "Check Your Internet Access!";
+            } else {
+                try {
+                    String myDriver = "com.mysql.jdbc.Driver";
+                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
+                    Class.forName(myDriver);
+                    Connection conn = DriverManager.getConnection(myUrl);
+
+                    Statement statement1 = conn.createStatement();
+                    ResultSet rs1 = statement1.executeQuery("SELECT * FROM `invite` WHERE user_iduser='" + playerOneID + "'");
+
+                    while (rs1.next()){
+                        player = rs1.getBoolean(1);
+                    }
+
+
+
+
+
+                    rs1.close();
+                    conn.close();
+
+
+                    if (player == true){
+                        invite = true;
+                    }
+                    else {
+                        System.out.println("Could not invite person.");
+                    }
+
+
+                } catch (Exception e){
+                    System.err.println("Got an exception!");
+                    System.err.println(e.getMessage());
+                }
+
+            }
+
+            ConnectionResult = " successful";
+            isSuccess = true;
+            connect.close();
+
+        } catch (Exception e) {
+            isSuccess = false;
+            ConnectionResult = e.getMessage();
+        }
+
+        return invite;
+    }
+    public void createMultiplayerTable(int playerOneID, String playerTwoID, int highscore1, int highscore2) {
         try {
             ConnectionHelper conStr = new ConnectionHelper();
             connect = conStr.connectionclasss();        // Connect to database
@@ -433,12 +489,11 @@ public class DBHandler {
                     Class.forName(myDriver);
                     Connection conn = DriverManager.getConnection(myUrl);
 
-                    PreparedStatement pstm = conn.prepareStatement("INSERT INTO multiplayer (idmultiplayer, user_iduser, user_iduser, response, score_one, score_two) VALUES (?,?,?,?,?)");
+                    PreparedStatement pstm = conn.prepareStatement("INSERT INTO multiplayer user_iduser, opponent, score_one, score_two) VALUES (?,?,?,?)");
                     pstm.setInt(1, playerOneID);
-                    pstm.setInt(2, playerTwoID);
-                    pstm.setInt(3, opponentResponse);
-                    pstm.setInt(4, highscorePlayerOne);
-                    pstm.setInt(5, highscorePlayerTwo);
+                    pstm.setString(2, playerTwoID);
+                    pstm.setInt(3, highscore1);
+                    pstm.setInt(4, highscore2);
                     pstm.executeUpdate();
 
                     conn.close();
@@ -459,6 +514,10 @@ public class DBHandler {
             ConnectionResult = e.getMessage();
         }
     }
+
+
+    /*
+
 
     public void respondToInvitation(boolean reply, int multiplayerID) { // Replace multiplayer ID with the respondents player ID?
         try {
@@ -503,66 +562,7 @@ public class DBHandler {
             ConnectionResult = e.getMessage();
         }
     }
-
-    public boolean canInvitationBeSent(int playerOneID, int playerTwoID){
-        boolean invite = false;
-        int playerOneMatchID = 0;
-        int playerTwoMatchID = 0;
-        try {
-            ConnectionHelper conStr = new ConnectionHelper();
-            connect = conStr.connectionclasss();        // Connect to database
-            if (connect == null) {
-                ConnectionResult = "Check Your Internet Access!";
-            } else {
-                try {
-                    String myDriver = "com.mysql.jdbc.Driver";
-                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
-                    Class.forName(myDriver);
-                    Connection conn = DriverManager.getConnection(myUrl);
-
-                    Statement statement1 = conn.createStatement();
-                    ResultSet rs1 = statement1.executeQuery("SELECT * FROM `multiplayer` WHERE user_iduser='" + playerOneID + "'");
-
-                    while (rs1.next()){
-                        playerOneMatchID = rs1.getInt(1);
-                    }
-
-                    Statement statement2 = conn.createStatement();
-                    ResultSet rs2 = statement2.executeQuery("SELECT * FROM `multiplayer` WHERE user_iduser='" + playerTwoID + "'");
-
-                    while (rs2.next()){
-                        playerTwoMatchID = rs2.getInt(1);
-                    }
-
-
-                    rs1.close();
-                    rs2.close();
-                    conn.close();
-
-
-                    if (playerOneMatchID == 0 && playerTwoMatchID == 0){
-                        invite = true;
-                    }
-
-
-                } catch (Exception e){
-                    System.err.println("Got an exception!");
-                    System.err.println(e.getMessage());
-                }
-
-            }
-
-            ConnectionResult = " successful";
-            isSuccess = true;
-            connect.close();
-
-            } catch (Exception e) {
-                isSuccess = false;
-                ConnectionResult = e.getMessage();
-            }
-
-        return invite;
-        }*/
+*/
 
 
 
