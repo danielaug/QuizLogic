@@ -58,10 +58,10 @@ public class GameOptionActivity extends AppCompatActivity {
 
                 } else {
                     System.out.println("Nothing thread 1");
-
+                    handler.postDelayed(this, 40000);
 
                 }
-                handler.postDelayed(this, 40000);
+
             }
         }, 40000);  //the time is in miliseconds
 
@@ -83,14 +83,16 @@ public class GameOptionActivity extends AppCompatActivity {
                 if(inviteCheckerCurrentUser && inviteCheckerOpponent) {
                     System.out.println("You are being tranfered");
                     handler2.removeCallbacksAndMessages(this);
-
-                  //transfer them to next screen here
+                    dbHandler.deletePLayerFromInvite(userNameID);
+                    int opponentID = dbHandler.getOpponentID(userName);
+                    dbHandler.deletePLayerFromInvite(opponentID);
+                  //transfer them to next screen here and delete multiplayer table when they're finished
                 } else {
                     System.out.println("Nothing thread 2");
-
+                    handler2.postDelayed(this, 30000);
 
                 }
-                handler2.postDelayed(this, 30000);
+
             }
         }, 60000);  //the time is in miliseconds
 
