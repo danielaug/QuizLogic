@@ -82,23 +82,29 @@ public class ChooseOpponentActivity extends AppCompatActivity {
                     int playerOneID = userNameID;
                     String playerTwoName = spinnerSelection;
                     int playerTwoID = dbHandler.getIDofUserName(spinnerSelection);
+                    System.out.println(playerTwoID);
 
-                     boolean confirmInvite =  dbHandler.canInvitationBeSent(playerTwoID);
+                     boolean confirmInvite =  dbHandler.checkInvite(playerTwoID);
+                    System.out.println(confirmInvite);
 
-                     if(confirmInvite == true) {
+                     if(!confirmInvite) {
 
-                     //    dbHandler.createMultiplayerTable(playerOneID, playerTwoName, 0,0);
-                          //  dbHandler.setInviteToTrue(playerTwoID);
+
+                         System.out.println("Inside if statement");
+                         dbHandler.setInviteToTrue(playerTwoID);
+                         dbHandler.createMultiplayerTable(playerOneID, playerTwoName, 0,0);
+
+
+                         String toastText = "Invitation sent to " + spinnerSelection + "!";
+                         Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_LONG).show();
+                         Intent intent = new Intent(ChooseOpponentActivity.this, GameOptionActivity.class);
+                         startActivity(intent);
+                     } else {
+                         String toastText = "This user is already playing!";
+                         Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_LONG).show();
+                         Intent intent = new Intent(ChooseOpponentActivity.this, GameOptionActivity.class);
+                         startActivity(intent);
                      }
-
-
-
-
-                    String toastText = "Invitation sent to " + spinnerSelection + "!";
-                    Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(ChooseOpponentActivity.this, GameOptionActivity.class);
-                    startActivity(intent);
-
                 }
             }
         });

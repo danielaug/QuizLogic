@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class LoginActivity extends AppCompatActivity {
 
     public static int userNameID;
+    public static String userName;
     public ArrayList<User> userList;
     public static  DBHandler dbHandler;
     public static int [] continueButtonSaveHolder;
@@ -50,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, GameOptionActivity.class);
                 Log.e("test","Knappen klcaskda");
                 if (authentication(usernameField.getText().toString(),passwordField.getText().toString())){
+                    userName = usernameField.getText().toString();
                     userNameID = dbHandler.getIDofUserName(usernameField.getText().toString());
                     continueButtonSaveHolder = dbHandler.readFromSave(userNameID);
                     for(int i = 0; i < continueButtonSaveHolder.length; i++) {
