@@ -96,7 +96,7 @@ public class ChooseOpponentActivity extends AppCompatActivity {
 
                     String toastText = "Invitation sent to " + spinnerSelection + "!";
                     Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(ChooseOpponentActivity.this, MultiplayerGameplay.class);
+                    Intent intent = new Intent(ChooseOpponentActivity.this, GameOptionActivity.class);
                     startActivity(intent);
 
                 }

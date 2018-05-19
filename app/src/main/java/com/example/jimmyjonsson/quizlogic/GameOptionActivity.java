@@ -1,8 +1,12 @@
 package com.example.jimmyjonsson.quizlogic;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +21,7 @@ import java.util.TimerTask;
 
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHandler;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.continueButtonSaveHolder;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.userName;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
 
 
@@ -38,6 +43,62 @@ public class GameOptionActivity extends AppCompatActivity {
         currentScoreCounter = continueButtonSaveHolder[0];
         countDownValueSaver = continueButtonSaveHolder[2];
         counter = continueButtonSaveHolder[1];
+
+
+
+        final Handler handler = new Handler(); // CHECKS IF USER RECEIVED INVITE
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                boolean inviteChecker = dbHandler.checkInvite(userNameID);
+
+                if(inviteChecker) {
+                    handler.removeCallbacksAndMessages(this);
+                    notifyMe();
+
+                } else {
+                    System.out.println("Nothing thread 1");
+                    handler.postDelayed(this, 40000);
+
+                }
+
+            }
+        }, 40000);  //the time is in miliseconds
+
+
+
+
+    final Handler handler2 = new Handler();  //CHECKS IF USER HAS ACCEPTED THE INVITE, IF ACCEPTED THEN TRANSFER TO NEW QUIZ SCREEN
+        handler2.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                int opponentID2 = dbHandler.getOpponentID(userName);
+                boolean inviteCheckerCurrentUser = dbHandler.checkInvite(userNameID);
+                boolean inviteCheckerOpponent = dbHandler.checkInvite(opponentID2);
+
+                System.out.println(inviteCheckerCurrentUser);
+                System.out.println(inviteCheckerOpponent);
+
+                if(inviteCheckerCurrentUser && inviteCheckerOpponent) {
+                    System.out.println("You are being tranfered");
+                    handler2.removeCallbacksAndMessages(this);
+                    dbHandler.deletePLayerFromInvite(userNameID);
+                    int opponentID = dbHandler.getOpponentID(userName);
+                    dbHandler.deletePLayerFromInvite(opponentID);
+                  //transfer them to next screen here and delete multiplayer table when they're finished
+                } else {
+                    System.out.println("Nothing thread 2");
+                    handler2.postDelayed(this, 30000);
+
+                }
+
+            }
+        }, 60000);  //the time is in miliseconds
+
+
+
+
 
 
 
@@ -91,6 +152,10 @@ public class GameOptionActivity extends AppCompatActivity {
                     SharedPreferences sharedPreferences1 = getSharedPreferences("pref", MODE_PRIVATE);        //initialize the sharedpreference by specifying file name and MODE PRIVATE, means it can only be used by this app.
                     SharedPreferences.Editor editor = sharedPreferences1.edit();   //make it possible to edit.
                     editor.putInt("points", counter);       //save how many points  user quit with
+                    userNameID = -1;
+                    handler.removeCallbacksAndMessages(null);
+                    handler2.removeCallbacksAndMessages(null);
+
                     editor.commit();
 
                     Intent intent = new Intent(GameOptionActivity.this, LoginActivity.class);
@@ -106,39 +171,43 @@ public class GameOptionActivity extends AppCompatActivity {
             }
         );
 
-        Timer timer = new Timer();
-        int begin = 1000;
-        final int timeInterval = 10*1000;
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-              boolean controller = false;// dbHandler.canInvitationBeSent(userNameID);
-
-              if(controller) {
-                  //create new alertbox and if press yes then set opponents invite to 1 and transfer to new screen
-              }
-              else {
-                  //do nothing
-              }
-
-
-            }
-        },begin,timeInterval);
-
-
-
-
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-               //check if user online has invite set to true and his opponent is set to true, in that case transfer them to new quiz screen
-            }
-        },begin,timeInterval);
-
 
 
     }
+    private void notifyMe() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final int opponentID = dbHandler.getOpponentID(userName);
+        String opponent = dbHandler.getOpponentName(opponentID);
+        builder.setTitle("You have been challenged by " + opponent);
+        builder.setMessage("Do you wish to accept?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                dbHandler.setInviteToTrue(opponentID);
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dbHandler.deletePLayerFromInvite(userNameID);
+                int opponentID2 = dbHandler.getOpponentID(userName);
+                dbHandler.deletePLayerFrommultiplayer(opponentID2);
+                dialog.dismiss();
+
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+
+    }
+
+
 
 }
 
