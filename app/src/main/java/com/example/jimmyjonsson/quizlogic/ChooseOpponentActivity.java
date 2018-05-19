@@ -83,20 +83,20 @@ public class ChooseOpponentActivity extends AppCompatActivity {
                     String playerTwoName = spinnerSelection;
                     int playerTwoID = dbHandler.getIDofUserName(spinnerSelection);
 
-                     boolean confirmInvite =  dbHandler.canInvitationBeSent(playerTwoID);
+                     //boolean confirmInvite =  dbHandler.canInvitationBeSent(playerTwoID);
 
-                     if(confirmInvite == true) {
+                     //if(confirmInvite == true) {
 
                          //dbHandler.createMultiplayerTable(playerOneID, playerTwoName, 0,0);
                             //dbHandler.setInviteToTrue(playerTwoID);
-                     }
+                     //}
 
 
 
 
                     String toastText = "Invitation sent to " + spinnerSelection + "!";
                     Toast.makeText(getApplicationContext(), toastText, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(ChooseOpponentActivity.this, GameOptionActivity.class);
+                    Intent intent = new Intent(ChooseOpponentActivity.this, MultiplayerGameplay.class);
                     startActivity(intent);
 
                 }
