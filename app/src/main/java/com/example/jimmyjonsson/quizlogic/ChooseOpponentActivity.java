@@ -88,6 +88,7 @@ public class ChooseOpponentActivity extends AppCompatActivity {
                      if(confirmInvite == true) {
 
                      //    dbHandler.createMultiplayerTable(playerOneID, playerTwoName, 0,0);
+                          //  dbHandler.setInviteToTrue(playerTwoID);
                      }
 
 

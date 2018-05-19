@@ -12,6 +12,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHandler;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.continueButtonSaveHolder;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
@@ -102,6 +105,37 @@ public class GameOptionActivity extends AppCompatActivity {
 
             }
         );
+
+        Timer timer = new Timer();
+        int begin = 1000;
+        final int timeInterval = 10*1000;
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+              boolean controller = false;// dbHandler.canInvitationBeSent(userNameID);
+
+              if(controller) {
+                  //create new alertbox and if press yes then set opponents invite to 1 and transfer to new screen
+              }
+              else {
+                  //do nothing
+              }
+
+
+            }
+        },begin,timeInterval);
+
+
+
+
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+               //check if user online has invite set to true and his opponent is set to true, in that case transfer them to new quiz screen
+            }
+        },begin,timeInterval);
+
 
 
     }
