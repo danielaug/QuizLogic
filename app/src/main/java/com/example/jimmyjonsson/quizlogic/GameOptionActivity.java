@@ -55,6 +55,7 @@ public class GameOptionActivity extends AppCompatActivity {
                 if(inviteChecker) {
                     handler.removeCallbacksAndMessages(this);
                     notifyMe();
+                    Thread.currentThread().interrupt();
 
                 } else {
                     System.out.println("Nothing thread 1");
@@ -86,7 +87,9 @@ public class GameOptionActivity extends AppCompatActivity {
                     dbHandler.deletePLayerFromInvite(userNameID);
                     int opponentID = dbHandler.getOpponentID(userName);
                     dbHandler.deletePLayerFromInvite(opponentID);
-                  //transfer them to next screen here and delete multiplayer table when they're finished
+                    Thread.currentThread().interrupt();
+                    Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);
+                    startActivity(intent);
                 } else {
                     System.out.println("Nothing thread 2");
                     handler2.postDelayed(this, 30000);
@@ -180,13 +183,13 @@ public class GameOptionActivity extends AppCompatActivity {
         String opponent = dbHandler.getOpponentName(opponentID);
         builder.setTitle("You have been challenged by " + opponent);
         builder.setMessage("Do you wish to accept?");
-
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
                 dbHandler.setInviteToTrue(opponentID);
 
                 dialog.dismiss();
+
             }
         });
 
@@ -198,6 +201,7 @@ public class GameOptionActivity extends AppCompatActivity {
                 int opponentID2 = dbHandler.getOpponentID(userName);
                 dbHandler.deletePLayerFrommultiplayer(opponentID2);
                 dialog.dismiss();
+
 
             }
         });

@@ -16,7 +16,7 @@ public class DBHandler {
     String ConnectionResult = "";
     Boolean isSuccess = false;
 
-    public void addPlayer(String userName, String password, int highscore) {
+    public synchronized void addPlayer(String userName, String password, int highscore) {
 
 
         try {
@@ -67,7 +67,7 @@ public class DBHandler {
 
     }
 
-    public void updateSaveTable(int high, int counter, int time, int userID) {
+    public synchronized void updateSaveTable(int high, int counter, int time, int userID) {
 
 
         try {
@@ -117,7 +117,7 @@ public class DBHandler {
 
     }
 
-    public void insertSaveTable(int high, int counter, int time, int userID) {
+    public synchronized void insertSaveTable(int high, int counter, int time, int userID) {
 
 
         try {
@@ -167,7 +167,7 @@ public class DBHandler {
 
     }
 
-    public void resetInviteTable(int userID) {
+    public synchronized void resetInviteTable(int userID) {
 
 
         try {
@@ -216,7 +216,7 @@ public class DBHandler {
     }
 
 
-    public ArrayList<User> getPLayer() {
+    public synchronized ArrayList<User> getPLayer() {
         String m = null;
         ArrayList<User> viewPlayers = new ArrayList<>();
 
@@ -269,7 +269,7 @@ public class DBHandler {
         return  viewPlayers;
     }
 
-    public int getIDofUserName(String userName) {
+    public synchronized  int getIDofUserName(String userName) {
         int theID = 0;
         try {
             ConnectionHelper conStr = new ConnectionHelper();
@@ -371,7 +371,7 @@ public class DBHandler {
     }
 
 
-    public void newHighScore ( int ID, int highscore){
+    public synchronized void newHighScore ( int ID, int highscore){
 
 
         try {
@@ -415,7 +415,7 @@ public class DBHandler {
 
 
     }
-    public int[] readFromSave ( int ID){
+    public synchronized int[] readFromSave ( int ID){
         int[] myArray = {0, 0, 0};
 
 
@@ -466,7 +466,7 @@ public class DBHandler {
     }
 
 
-    public int getHighScore ( int ID){
+    public synchronized int getHighScore ( int ID){
         int highscore = 0;
 
         try {
@@ -515,7 +515,7 @@ public class DBHandler {
     }
 
 
-    public void createMultiplayerTable(int playerOneID, String playerTwoID, int highscore1, int highscore2) {
+    public synchronized void createMultiplayerTable(int playerOneID, String playerTwoID, int highscore1, int highscore2) {
         try {
             ConnectionHelper conStr = new ConnectionHelper();
             connect = conStr.connectionclasss();        // Connect to database
@@ -556,7 +556,7 @@ public class DBHandler {
         }
     }
 
-    public String getOpponentName(int ID){
+    public synchronized String getOpponentName(int ID){
         String user = null;
         try {
             ConnectionHelper conStr = new ConnectionHelper();
@@ -604,7 +604,7 @@ public class DBHandler {
     }
 
 
-    public int getOpponentID(String ID){
+    public synchronized int getOpponentID(String ID){
         int user = 0;
         try {
             ConnectionHelper conStr = new ConnectionHelper();
@@ -650,7 +650,7 @@ public class DBHandler {
         return user;
 
     }
-    public boolean checkInvite(int ID){
+    public synchronized boolean checkInvite(int ID){
                 boolean checker = false;
         try {
             ConnectionHelper conStr = new ConnectionHelper();
@@ -698,7 +698,7 @@ public class DBHandler {
     }
 
 
-    public void setInviteToTrue(int playerID) { // Replace multiplayer ID with the respondents player ID?
+    public synchronized void setInviteToTrue(int playerID) { // Replace multiplayer ID with the respondents player ID?
         try {
             ConnectionHelper conStr = new ConnectionHelper();
             connect = conStr.connectionclasss();        // Connect to database
@@ -739,7 +739,7 @@ public class DBHandler {
 
 
 
-    public void deletePLayerFromInvite(int index) {
+    public synchronized void deletePLayerFromInvite(int index) {
         try {
             ConnectionHelper conStr = new ConnectionHelper();
             connect = conStr.connectionclasss();        // Connect to database
@@ -777,7 +777,7 @@ public class DBHandler {
         }
 
     }
-    public void deletePLayerFrommultiplayer(int opponent) {
+    public synchronized void deletePLayerFrommultiplayer(int opponent) {
         try {
             ConnectionHelper conStr = new ConnectionHelper();
             connect = conStr.connectionclasss();        // Connect to database
