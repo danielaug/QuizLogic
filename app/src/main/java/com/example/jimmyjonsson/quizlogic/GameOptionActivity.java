@@ -32,6 +32,7 @@ public class GameOptionActivity extends AppCompatActivity {
     public static int countDownValueSaver;
     public LoginActivity loginActivity;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,34 +47,32 @@ public class GameOptionActivity extends AppCompatActivity {
 
 
 
-        final Handler handler = new Handler(); // CHECKS IF USER RECEIVED INVITE
+    final Handler handler = new Handler(); // CHECKS IF USER RECEIVED INVITE
         handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                boolean inviteChecker = dbHandler.checkInvite(userNameID);
-                int opponentID2 = dbHandler.getOpponentID(userName);
-                boolean inviteCheckerOpponent = dbHandler.checkInvite(opponentID2);
+                @Override
+                public void run() {
+                    boolean inviteChecker = dbHandler.checkInvite(userNameID);
+                    int opponentID2 = dbHandler.getOpponentID(userName);
+                    boolean inviteCheckerOpponent = dbHandler.checkInvite(opponentID2);
 
-                if(inviteCheckerOpponent && inviteChecker) {
-                    Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);
-                    startActivity(intent);
+                    if (inviteCheckerOpponent && inviteChecker) {
+                        Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);
+                        startActivity(intent);
+                        finish();
+                    } else if (inviteChecker && !inviteCheckerOpponent) {
+                        handler.removeCallbacksAndMessages(this);
+                        notifyMe();
+                        finish();
+                        Thread.currentThread().interrupt();
+
+                    } else {
+                        System.out.println("Nothing thread 1");
+                        handler.postDelayed(this, 40000);
+
+                    }
+
                 }
-
-                else if(inviteChecker && !inviteCheckerOpponent) {
-                    handler.removeCallbacksAndMessages(this);
-                    notifyMe();
-                    Thread.currentThread().interrupt();
-
-                } else {
-                    System.out.println("Nothing thread 1");
-                    handler.postDelayed(this, 40000);
-
-                }
-
-            }
-        }, 40000);  //the time is in miliseconds
-
-
+            }, 40000);  //the time is in miliseconds
 
 
         final String[] menuItems = {"Continue", "New Game", "Challenge Another Player", "Highscore", "Quit"};
@@ -90,7 +89,7 @@ public class GameOptionActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 if (position == 0) {
-
+                    handler.removeCallbacksAndMessages(null);
                     Log.e("asdas", String.valueOf(counter));
                     if(counter <= 0 || counter > 9) {
                         Toast.makeText(GameOptionActivity.this, "Nothing here", Toast.LENGTH_SHORT).show();
@@ -103,6 +102,7 @@ public class GameOptionActivity extends AppCompatActivity {
 
                     }
                 if (position == 1) {
+                    handler.removeCallbacksAndMessages(null);
                     counter = 0;
                     countDownValueSaver = 100;
                     currentScoreCounter = 0;
@@ -113,11 +113,13 @@ public class GameOptionActivity extends AppCompatActivity {
 
                 }
                 if (position == 2){
+                    handler.removeCallbacksAndMessages(null);
                     Intent intent = new Intent(GameOptionActivity.this, ChooseOpponentActivity.class);
                     startActivity(intent);
                 }
 
                 if(position == 3) {
+                    handler.removeCallbacksAndMessages(null);
                     Intent intent = new Intent(GameOptionActivity.this, HighscoreActivity.class);
                     startActivity(intent);
                 }
@@ -128,7 +130,7 @@ public class GameOptionActivity extends AppCompatActivity {
                     editor.putInt("points", counter);       //save how many points  user quit with
                     userNameID = -1;
                     handler.removeCallbacksAndMessages(null);
-                   // handler2.removeCallbacksAndMessages(null);
+
 
                     editor.commit();
 
