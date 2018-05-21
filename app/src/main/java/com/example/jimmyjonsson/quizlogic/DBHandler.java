@@ -117,6 +117,8 @@ public class DBHandler {
 
     }
 
+
+
     public synchronized void insertSaveTable(int high, int counter, int time, int userID) {
 
 
@@ -167,53 +169,7 @@ public class DBHandler {
 
     }
 
-    public synchronized void resetInviteTable(int userID) {
 
-
-        try {
-            ConnectionHelper conStr = new ConnectionHelper();
-            connect = conStr.connectionclasss();        // Connect to database
-            if (connect == null) {
-                ConnectionResult = "Check Your Internet Access!";
-            } else {
-
-                try {
-                    // create a mysql database connection
-                    String myDriver = "com.mysql.jdbc.Driver";
-                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
-                    Class.forName(myDriver);
-                    Connection conn = DriverManager.getConnection(myUrl);
-
-
-                    // the mysql insert statement
-
-                    PreparedStatement pstm = conn.prepareStatement("UPDATE `invite` SET `response`=? WHERE `user_iduser`=?");
-                    pstm.setBoolean(1, false);
-                    pstm.setInt(2,userID);
-                    pstm.executeUpdate();
-
-                    // execute the preparedstatement
-
-
-                    conn.close();
-                } catch (Exception e) {
-                    System.err.println("Got an exception!");
-                    System.err.println(e.getMessage());
-                }
-            }
-
-
-            ConnectionResult = " successful";
-            isSuccess = true;
-            connect.close();
-
-        } catch (Exception ex) {
-            isSuccess = false;
-            ConnectionResult = ex.getMessage();
-        }
-
-
-    }
 
 
     public synchronized ArrayList<User> getPLayer() {
@@ -320,55 +276,7 @@ public class DBHandler {
     }
 
 
-    public int getIDofOpponent(int playeroneID) {
-        int theID = 0;
-        try {
-            ConnectionHelper conStr = new ConnectionHelper();
-            connect = conStr.connectionclasss();        // Connect to database
-            if (connect == null) {
-                ConnectionResult = "Check Your Internet Access!";
-            } else {
 
-                try {
-                    // create a mysql database connection
-                    String myDriver = "com.mysql.jdbc.Driver";
-                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
-                    Class.forName(myDriver);
-                    Connection conn = DriverManager.getConnection(myUrl);
-
-
-                    Statement statement = conn.createStatement();
-
-                    ResultSet rs = statement.executeQuery("SELECT * FROM multiplayer where userName='" + playeroneID + "'");
-
-                    while (rs.next()) {
-                        theID = rs.getInt(3);
-
-                    }
-
-
-                    // execute the preparedstatement
-                    rs.close();
-
-                    conn.close();
-
-
-                } catch (Exception e) {
-                    System.err.println("Got an exception!");
-                    System.err.println(e.getMessage());
-                }
-
-            }
-            ConnectionResult = " successful";
-            isSuccess = true;
-            connect.close();
-
-        } catch (Exception ex) {
-            isSuccess = false;
-            ConnectionResult = ex.getMessage();
-        }
-        return theID;
-    }
 
 
     public synchronized void newHighScore ( int ID, int highscore){
@@ -736,7 +644,6 @@ public class DBHandler {
             ConnectionResult = e.getMessage();
         }
     }
-
 
 
     public synchronized void deletePLayerFromInvite(int index) {

@@ -51,8 +51,15 @@ public class GameOptionActivity extends AppCompatActivity {
             @Override
             public void run() {
                 boolean inviteChecker = dbHandler.checkInvite(userNameID);
+                int opponentID2 = dbHandler.getOpponentID(userName);
+                boolean inviteCheckerOpponent = dbHandler.checkInvite(opponentID2);
 
-                if(inviteChecker) {
+                if(inviteCheckerOpponent && inviteChecker) {
+                    Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);
+                    startActivity(intent);
+                }
+
+                else if(inviteChecker && !inviteCheckerOpponent) {
                     handler.removeCallbacksAndMessages(this);
                     notifyMe();
                     Thread.currentThread().interrupt();
@@ -65,42 +72,6 @@ public class GameOptionActivity extends AppCompatActivity {
 
             }
         }, 40000);  //the time is in miliseconds
-
-
-
-
-    final Handler handler2 = new Handler();  //CHECKS IF USER HAS ACCEPTED THE INVITE, IF ACCEPTED THEN TRANSFER TO NEW QUIZ SCREEN
-        handler2.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                int opponentID2 = dbHandler.getOpponentID(userName);
-                boolean inviteCheckerCurrentUser = dbHandler.checkInvite(userNameID);
-                boolean inviteCheckerOpponent = dbHandler.checkInvite(opponentID2);
-
-                System.out.println(inviteCheckerCurrentUser);
-                System.out.println(inviteCheckerOpponent);
-
-                if(inviteCheckerCurrentUser && inviteCheckerOpponent) {
-                    System.out.println("You are being tranfered");
-                    handler2.removeCallbacksAndMessages(this);
-                    dbHandler.deletePLayerFromInvite(userNameID);
-                    int opponentID = dbHandler.getOpponentID(userName);
-                    dbHandler.deletePLayerFromInvite(opponentID);
-                    Thread.currentThread().interrupt();
-                    Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);
-                    startActivity(intent);
-                } else {
-                    System.out.println("Nothing thread 2");
-                    handler2.postDelayed(this, 30000);
-
-                }
-
-            }
-        }, 60000);  //the time is in miliseconds
-
-
-
 
 
 
@@ -157,7 +128,7 @@ public class GameOptionActivity extends AppCompatActivity {
                     editor.putInt("points", counter);       //save how many points  user quit with
                     userNameID = -1;
                     handler.removeCallbacksAndMessages(null);
-                    handler2.removeCallbacksAndMessages(null);
+                   // handler2.removeCallbacksAndMessages(null);
 
                     editor.commit();
 
@@ -180,13 +151,20 @@ public class GameOptionActivity extends AppCompatActivity {
     private void notifyMe() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final int opponentID = dbHandler.getOpponentID(userName);
-        String opponent = dbHandler.getOpponentName(opponentID);
+        final String opponent = dbHandler.getOpponentName(opponentID);
         builder.setTitle("You have been challenged by " + opponent);
         builder.setMessage("Do you wish to accept?");
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
+                System.out.println("UserID" + userNameID);
+                System.out.println("opponent" + opponent);
+                System.out.println("opponent id" + opponentID);
                 dbHandler.setInviteToTrue(opponentID);
+                dbHandler.deletePLayerFrommultiplayer(opponentID);
+                dbHandler.createMultiplayerTable(userNameID,opponent,0,0);
+                Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);
+                startActivity(intent);
 
                 dialog.dismiss();
 
