@@ -60,11 +60,10 @@ public class GameOptionActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else if (inviteChecker && !inviteCheckerOpponent) {
-                        handler.removeCallbacksAndMessages(this);
                         notifyMe();
                         finish();
                         Thread.currentThread().interrupt();
-
+                        handler.removeCallbacksAndMessages(this);
                     } else {
                         System.out.println("Nothing thread 1");
                         handler.postDelayed(this, 40000);
