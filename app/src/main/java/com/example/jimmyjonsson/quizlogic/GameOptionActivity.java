@@ -58,11 +58,8 @@ public class GameOptionActivity extends AppCompatActivity {
                     if (inviteCheckerOpponent && inviteChecker) {
                         Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);
                         startActivity(intent);
-                        finish();
                     } else if (inviteChecker && !inviteCheckerOpponent) {
                         notifyMe();
-                        finish();
-                        Thread.currentThread().interrupt();
                         handler.removeCallbacksAndMessages(this);
                     } else {
                         System.out.println("Nothing thread 1");
