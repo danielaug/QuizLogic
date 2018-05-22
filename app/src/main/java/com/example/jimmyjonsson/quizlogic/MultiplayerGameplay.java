@@ -217,7 +217,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
 
 
 
-            if(highscore1!=-1 && highscore2!=-1) {
+            if(highscore1!=-1 || highscore2!=-1) {
 
                 dbHandler.deletePLayerFromInvite(userNameID);
 
