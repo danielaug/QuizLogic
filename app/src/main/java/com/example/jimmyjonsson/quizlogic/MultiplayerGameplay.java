@@ -197,7 +197,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
             if (checkHighScore(userNameID, currentScore)) {
                 updateHighScore(userNameID, currentScore);
             }
-            Intent intent = new Intent(MultiplayerGameplay.this, HighscoreActivity.class);
+            Intent intent = new Intent(MultiplayerGameplay.this, HighscoreMultiplayer.class);
             continueButtonSaveHolder[0] = currentScore;
             intent.putExtra("score", currentScore); // pass the current score to the second screen
             startActivity(intent);
