@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.counter;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.userName;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
 
 public class HighscoreMultiplayer extends AppCompatActivity {
@@ -49,20 +50,27 @@ public class HighscoreMultiplayer extends AppCompatActivity {
         // receive the score from last activity by Intent
         Intent intent = getIntent();
         int score = intent.getIntExtra("score", 0);
-        displayScore.setText("Your score: " + score);
+        dbHandler.newHighScore(userNameID,score);
+        int fjfj = dbHandler.getOpponentID(userName);
+        String gg = dbHandler.getOpponentName(fjfj);
+
+        displayScore.setText("1" + userNameID + score);
+
+        displayHighscore.setText("2" + gg);
+
 
 
         dbHandler = new DBHandler();
         userArrayList = dbHandler.getPLayer();
         highscore = dbHandler.getHighScore(userNameID);
 
-        if(score > highscore) {
-            dbHandler.newHighScore(userNameID,score);
-            displayHighscore.setText("High score: " + score);
+        //if(score > highscore) {
+            //dbHandler.newHighScore(userNameID,score);
+           // displayHighscore.setText("High score: " + score);
 
-        } else {
-            displayHighscore.setText("High score: " + highscore);
-        }
+        //} else {
+        //    displayHighscore.setText("High score: " + highscore);
+        //}
 
 
     }
