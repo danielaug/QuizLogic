@@ -202,7 +202,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
 
             try {
               highscore1 = dbHandler.getHighScore1(userNameID);
-              highscore2 = dbHandler.getHighScore1(userNameID);
+
             } catch (Exception e){
                 System.out.println("This didnt work :D");
             }
@@ -210,14 +210,14 @@ public class MultiplayerGameplay extends AppCompatActivity {
             try {
 
                 highscore1 = dbHandler.getHighScore1(opponentID);
-                highscore2 = dbHandler.getHighScore1(opponentID);
+
             } catch (Exception e){
                 System.out.println("This didnt work :D");
             }
 
 
 
-            if(highscore1!=-1 || highscore2!=-1) {
+            if(highscore1!=-1) {
 
                 dbHandler.deletePLayerFromInvite(userNameID);
 
@@ -238,6 +238,20 @@ public class MultiplayerGameplay extends AppCompatActivity {
                 intent.putExtra("score", currentScore); // pass the current score to the second screen
                 startActivity(intent);
             } else {
+                try {
+                    dbHandler.updateMultiPlayerHighscore1(currentScore,userNameID);
+                } catch (Exception e){
+                    System.out.println("This didnt work :D");
+                }
+
+                try {
+                    dbHandler.updateMultiPlayerHighscore1(currentScore,opponentID);
+                } catch (Exception e){
+                    System.out.println("This didnt work :D");
+                }
+
+
+
                 dbHandler.deletePLayerFromInvite(userNameID);
                 Intent intent = new Intent(MultiplayerGameplay.this, GameOptionActivity.class);
                 System.out.println("Your match is still in progress");
