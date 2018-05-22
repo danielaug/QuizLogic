@@ -22,6 +22,7 @@ import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.counter;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.currentScoreCounter;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.continueButtonSaveHolder;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHandler;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.userName;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
 
 public class MultiplayerGameplay extends AppCompatActivity {
@@ -194,14 +195,68 @@ public class MultiplayerGameplay extends AppCompatActivity {
             countDownValue = 0;
             counter = 0;
             timer.cancel();
-            if (checkHighScore(userNameID, currentScore)) {
-                updateHighScore(userNameID, currentScore);
-            }
-            Intent intent = new Intent(MultiplayerGameplay.this, HighscoreMultiplayer.class);
-            continueButtonSaveHolder[0] = currentScore;
-            intent.putExtra("score", currentScore); // pass the current score to the second screen
-            startActivity(intent);
 
+            int highscore1=0;
+            int highscore2 =0;
+            int opponentID = dbHandler.getOpponentID(userName);
+
+            try {
+              highscore1 = dbHandler.getHighScore1(userNameID);
+
+            } catch (Exception e){
+                System.out.println("Getting first highscore didnt work");
+            }
+
+            try {
+
+                highscore1 = dbHandler.getHighScore1(opponentID);
+
+            } catch (Exception e){
+                System.out.println("Getting first highscore from opponent table didnt work");
+            }
+
+
+
+            if(highscore1!=-1) {
+
+                dbHandler.deletePLayerFromInvite(userNameID);
+
+                try {
+                   dbHandler.deletePLayerFrommultiplayer(userNameID);
+                } catch (Exception e){
+                    System.out.println("delete multiplayer from current user didnt work");
+                }
+
+                try {
+                    dbHandler.deletePLayerFrommultiplayer(opponentID);
+                } catch (Exception e){
+                    System.out.println("delete multiplayer opponent user didnt work");
+                }
+
+                Intent intent = new Intent(MultiplayerGameplay.this, HighscoreMultiplayer.class);
+                continueButtonSaveHolder[0] = currentScore;
+                intent.putExtra("score", currentScore); // pass the current score to the second screen
+                startActivity(intent);
+            } else {
+                try {
+                    dbHandler.updateMultiPlayerHighscore1(currentScore,userNameID);
+                } catch (Exception e){
+                    System.out.println("This didnt work :D");
+                }
+
+                try {
+                    dbHandler.updateMultiPlayerHighscore1(currentScore,opponentID);
+                } catch (Exception e){
+                    System.out.println("This didnt work :D");
+                }
+
+
+
+                dbHandler.deletePLayerFromInvite(userNameID);
+                Intent intent = new Intent(MultiplayerGameplay.this, GameOptionActivity.class);
+                System.out.println("Your match is still in progress");
+                startActivity(intent);
+            }
         }
     }
 

@@ -67,6 +67,54 @@ public class DBHandler {
 
     }
 
+    public synchronized void updateMultiPlayerHighscore1(int high, int userID) {
+
+
+        try {
+            ConnectionHelper conStr = new ConnectionHelper();
+            connect = conStr.connectionclasss();        // Connect to database
+            if (connect == null) {
+                ConnectionResult = "Check Your Internet Access!";
+            } else {
+
+                try {
+                    // create a mysql database connection
+                    String myDriver = "com.mysql.jdbc.Driver";
+                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
+                    Class.forName(myDriver);
+                    Connection conn = DriverManager.getConnection(myUrl);
+
+
+                    // the mysql insert statement
+
+                    PreparedStatement pstm = conn.prepareStatement("UPDATE `multiplayer` SET `highscore1`=?, WHERE `username`=?");
+                    pstm.setInt(1, high);
+                    pstm.setInt(2,userID);
+                    pstm.executeUpdate();
+
+                    // execute the preparedstatement
+
+
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("Got an exception!");
+                    System.err.println(e.getMessage());
+                }
+            }
+
+
+            ConnectionResult = " successful";
+            isSuccess = true;
+            connect.close();
+
+        } catch (Exception ex) {
+            isSuccess = false;
+            ConnectionResult = ex.getMessage();
+        }
+
+
+    }
+
     public synchronized void updateSaveTable(int high, int counter, int time, int userID) {
 
 
@@ -116,7 +164,6 @@ public class DBHandler {
 
 
     }
-
 
 
     public synchronized void insertSaveTable(int high, int counter, int time, int userID) {
@@ -393,6 +440,105 @@ public class DBHandler {
 
                     Statement statement = conn.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `user` where iduser='" + ID + "'");
+
+                    // the mysql insert statement
+                    while (rs.next()) {
+                        highscore = rs.getInt(4);
+
+                    }
+
+
+
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("Got an exception!");
+                    System.err.println(e.getMessage());
+                }
+            }
+
+
+            ConnectionResult = " successful";
+            isSuccess = true;
+            connect.close();
+
+        } catch (Exception ex) {
+            isSuccess = false;
+            ConnectionResult = ex.getMessage();
+        }
+        return highscore;
+
+    }
+
+
+    public synchronized int getHighScore1 ( int ID){
+        int highscore = 0;
+
+        try {
+            ConnectionHelper conStr = new ConnectionHelper();
+            connect = conStr.connectionclasss();        // Connect to database
+            if (connect == null) {
+                ConnectionResult = "Check Your Internet Access!";
+            } else {
+
+                try {
+                    // create a mysql database connection
+                    String myDriver = "com.mysql.jdbc.Driver";
+                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
+                    Class.forName(myDriver);
+                    Connection conn = DriverManager.getConnection(myUrl);
+
+                    Statement statement = conn.createStatement();
+                    ResultSet rs = statement.executeQuery("SELECT * FROM `multiplayer` where username='" + ID + "'");
+
+                    // the mysql insert statement
+                    while (rs.next()) {
+                        highscore = rs.getInt(3);
+
+                    }
+
+
+
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("Got an exception!");
+                    System.err.println(e.getMessage());
+                }
+            }
+
+
+            ConnectionResult = " successful";
+            isSuccess = true;
+            connect.close();
+
+        } catch (Exception ex) {
+            isSuccess = false;
+            ConnectionResult = ex.getMessage();
+        }
+        return highscore;
+
+    }
+
+
+
+    public synchronized int getHighScore2 ( int ID){
+        int highscore = 0;
+
+        try {
+            ConnectionHelper conStr = new ConnectionHelper();
+            connect = conStr.connectionclasss();        // Connect to database
+            if (connect == null) {
+                ConnectionResult = "Check Your Internet Access!";
+            } else {
+
+                try {
+                    // create a mysql database connection
+                    String myDriver = "com.mysql.jdbc.Driver";
+                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
+                    Class.forName(myDriver);
+                    Connection conn = DriverManager.getConnection(myUrl);
+
+                    Statement statement = conn.createStatement();
+                    ResultSet rs = statement.executeQuery("SELECT * FROM `multiplayer` where username='" + ID + "'");
 
                     // the mysql insert statement
                     while (rs.next()) {
