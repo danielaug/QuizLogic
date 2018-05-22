@@ -204,7 +204,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
               highscore1 = dbHandler.getHighScore1(userNameID);
 
             } catch (Exception e){
-                System.out.println("This didnt work :D");
+                System.out.println("Getting first highscore didnt work");
             }
 
             try {
@@ -212,7 +212,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
                 highscore1 = dbHandler.getHighScore1(opponentID);
 
             } catch (Exception e){
-                System.out.println("This didnt work :D");
+                System.out.println("Getting first highscore from opponent table didnt work");
             }
 
 
@@ -224,13 +224,13 @@ public class MultiplayerGameplay extends AppCompatActivity {
                 try {
                    dbHandler.deletePLayerFrommultiplayer(userNameID);
                 } catch (Exception e){
-                    System.out.println("This didnt work :D");
+                    System.out.println("delete multiplayer from current user didnt work");
                 }
 
                 try {
                     dbHandler.deletePLayerFrommultiplayer(opponentID);
                 } catch (Exception e){
-                    System.out.println("This didnt work :D");
+                    System.out.println("delete multiplayer opponent user didnt work");
                 }
 
                 Intent intent = new Intent(MultiplayerGameplay.this, HighscoreMultiplayer.class);
