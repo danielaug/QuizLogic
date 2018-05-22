@@ -20,10 +20,14 @@ import java.util.stream.Collectors;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.countDownValueSaver;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.counter;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.currentScoreCounter;
+import static com.example.jimmyjonsson.quizlogic.LoginActivity.continueButtonSaveHolder;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHandler;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
 
 public class MultiplayerGameplay extends AppCompatActivity {
+
+    private QuizStorageMultiplayer questionLibrary = new QuizStorageMultiplayer();
+
 
     private Button buttonChoice1; // choice 1 for Question
     private Button buttonChoice2; // choice 2 for Question
@@ -40,7 +44,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
 
 
     Context context = this;
-    private DBHandler dbHandler;
+
     private Timer timer;
     private int countDownValue;
     private TextView countDownTextView;
@@ -52,7 +56,6 @@ public class MultiplayerGameplay extends AppCompatActivity {
     Random rng = new Random();
     List<Integer> rngchoices;
     List<Integer> rngQuestions =  rng.ints(0,10).distinct().limit(10).boxed().collect(Collectors.<Integer>toList());
-
 
 
     @Override
@@ -110,7 +113,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
             }
         },0, 1000);
 
-        //updateQuestion(); //invokes as soon as a button is pressed
+        updateQuestion(); //invokes as soon as a button is pressed
         //updateScore(currentScore);// show current total score for the user
     }
 
@@ -131,7 +134,75 @@ public class MultiplayerGameplay extends AppCompatActivity {
             Toast.makeText(MultiplayerGameplay.this, "Wrong!", Toast.LENGTH_SHORT).show();
 
         //updateScore(currentScore); // show current total score for the user
-        //updateQuestion(); // moving on the next answer once the user have chosen a answer
+        updateQuestion(); // moving on the next answer once the user have chosen a answer
+    }
+
+    private void updateQuestion(){
+
+
+        // check if we are not outside array bounds for questions
+        if (currentQuestionNumber < questionLibrary.getLength() ){
+
+            rngchoices = rng.ints(1, 5).distinct().limit(4).boxed().collect(Collectors.<Integer>toList());
+
+            questionView.setText(questionLibrary.getQuestion(rngQuestions.get(currentQuestionNumber))); //Update questionfield
+
+            /*Randomize the contents of the multiple choices*/
+
+            if (rngchoices.get(0) == 1)
+                buttonChoice1.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 1));
+            else if (rngchoices.get(0) == 2)
+                buttonChoice1.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 2));
+            else if (rngchoices.get(0) == 3)
+                buttonChoice1.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 3));
+            else if (rngchoices.get(0) == 4)
+                buttonChoice1.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 4));
+
+            if (rngchoices.get(1) == 1)
+                buttonChoice2.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 1));
+            else if (rngchoices.get(1) == 2)
+                buttonChoice2.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 2));
+            else if (rngchoices.get(1) == 3)
+                buttonChoice2.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 3));
+            else if (rngchoices.get(1) == 4)
+                buttonChoice2.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 4));
+
+            if (rngchoices.get(2) == 1)
+                buttonChoice3.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 1));
+            else if (rngchoices.get(2) == 2)
+                buttonChoice3.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 2));
+            else if (rngchoices.get(2) == 3)
+                buttonChoice3.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 3));
+            else if (rngchoices.get(2) == 4)
+                buttonChoice3.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 4));
+
+            if (rngchoices.get(3) == 1)
+                buttonChoice4.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 1));
+            else if (rngchoices.get(3) == 2)
+                buttonChoice4.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 2));
+            else if (rngchoices.get(3) == 3)
+                buttonChoice4.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 3));
+            else if (rngchoices.get(3) == 4)
+                buttonChoice4.setText(questionLibrary.getChoice(rngQuestions.get(currentQuestionNumber), 4));
+
+
+            correctAnswerCheck = questionLibrary.getCorrectAnswer(rngQuestions.get(currentQuestionNumber));
+            currentQuestionNumber++;
+
+        }
+        else {
+            countDownValue = 0;
+            counter = 0;
+            timer.cancel();
+            if (checkHighScore(userNameID, currentScore)) {
+                updateHighScore(userNameID, currentScore);
+            }
+            Intent intent = new Intent(MultiplayerGameplay.this, HighscoreActivity.class);
+            continueButtonSaveHolder[0] = currentScore;
+            intent.putExtra("score", currentScore); // pass the current score to the second screen
+            startActivity(intent);
+
+        }
     }
 
 
