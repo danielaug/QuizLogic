@@ -137,7 +137,7 @@ public class DBHandler {
 
                     // the mysql insert statement
 
-                    PreparedStatement pstm = conn.prepareStatement("UPDATE `match` SET `player2`=?,`h2`=? WHERE `user_iduser`=?");
+                    PreparedStatement pstm = conn.prepareStatement("UPDATE quiztime.match SET `player2`=?,`h2`=? WHERE `user_iduser`=?");
                     pstm.setInt(1, playerTwoID);
                     pstm.setInt(2,highscore);
                     pstm.setInt(2,opponentID);
@@ -769,7 +769,7 @@ public class DBHandler {
                     Connection conn = DriverManager.getConnection(myUrl);
 
 
-                    PreparedStatement pstm = conn.prepareStatement("INSERT INTO match (user_iduser,player2,h1,h2) VALUES (?,?,?,?)");
+                    PreparedStatement pstm = conn.prepareStatement("INSERT INTO quiztime.match (user_iduser,player2,h1,h2) VALUES (?,?,?,?)");
                     pstm.setInt(1, playerID);
                     pstm.setInt(2, playerIDTwo);
                     pstm.setInt(3, highscore1);
