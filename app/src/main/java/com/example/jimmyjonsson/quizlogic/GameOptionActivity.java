@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,8 +15,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHandler;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.continueButtonSaveHolder;
@@ -27,6 +24,7 @@ import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
 
 public class GameOptionActivity extends AppCompatActivity {
 
+    public static int opponentID = 0;
     public static int counter;
     public static int currentScoreCounter;
     public static int countDownValueSaver;
@@ -52,7 +50,7 @@ public class GameOptionActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     boolean inviteChecker = dbHandler.checkInvite(userNameID);
-                    int opponentID2 = dbHandler.getOpponentID(userName);
+                   int opponentID2 = dbHandler.getOpponentID(userName);
                     boolean inviteCheckerOpponent = dbHandler.checkInvite(opponentID2);
 
                     if (inviteCheckerOpponent && inviteChecker) {
@@ -147,6 +145,7 @@ public class GameOptionActivity extends AppCompatActivity {
 
     }
     private void notifyMe() {
+       opponentID = dbHandler.getOpponentID(userName);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final int opponentID = dbHandler.getOpponentID(userName);
         final String opponent = dbHandler.getOpponentName(opponentID);

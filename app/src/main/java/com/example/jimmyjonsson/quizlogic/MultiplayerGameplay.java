@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.countDownValueSaver;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.counter;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.currentScoreCounter;
+import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.opponentID;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.continueButtonSaveHolder;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHandler;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.userName;
@@ -29,7 +32,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
 
     private QuizStorageMultiplayer questionLibrary = new QuizStorageMultiplayer();
 
-
+    private ProgressBar progressBar;
     private Button buttonChoice1; // choice 1 for Question
     private Button buttonChoice2; // choice 2 for Question
     private Button buttonChoice3; // choice 3 for Question
@@ -75,7 +78,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
         currentUser = sharedPreferences.getString("userName",null);
 
         // setup screen for the first question with four alternative to answer
-
+         progressBar = (ProgressBar) findViewById(R.id.progress);
         questionView = (TextView)findViewById(R.id.question); //TextView for the Question
         buttonChoice1 = (Button)findViewById(R.id.choice1);
         buttonChoice2 = (Button)findViewById(R.id.choice2);
@@ -83,6 +86,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
         buttonChoice4 = (Button)findViewById(R.id.choice4);
         //scoreField = (TextView)findViewById(R.id.score); //Not in use for the moment
         countDownTextView = (TextView)findViewById(R.id.counter);
+        progressBar.setVisibility(View.GONE);
 
 
 
@@ -192,33 +196,46 @@ public class MultiplayerGameplay extends AppCompatActivity {
 
         }
         else {
+            progressBar.setVisibility(View.VISIBLE);
             countDownValue = 0;
             counter = 0;
             timer.cancel();
 
-            int highscore1=0;
-            int highscore2 =0;
-            int opponentID = dbHandler.getOpponentID(userName);
+            int highscore1=-1;
+            int temp = -1;
+            System.out.println(highscore1);
 
             try {
               highscore1 = dbHandler.getHighScore1(userNameID);
 
+              if(highscore1 > temp) {
+                  temp = highscore1;
+              }
+
+                System.out.println(highscore1);
             } catch (Exception e){
-                System.out.println("Getting first highscore didnt work");
+
             }
 
             try {
 
                 highscore1 = dbHandler.getHighScore1(opponentID);
 
+                if(highscore1 > temp) {
+                    temp = highscore1;
+                }
+
+                System.out.println(highscore1);
             } catch (Exception e){
-                System.out.println("Getting first highscore from opponent table didnt work");
+
             }
 
 
 
-            if(highscore1!=-1) {
-
+            if(temp!=-1) {
+                System.out.println("Inside if statement");
+                dbHandler.createMatchTable(userNameID,opponentID,currentScore,temp);
+                dbHandler.updateMatchTable(userNameID,currentScore,opponentID);
                 dbHandler.deletePLayerFromInvite(userNameID);
 
                 try {
@@ -233,26 +250,28 @@ public class MultiplayerGameplay extends AppCompatActivity {
                     System.out.println("delete multiplayer opponent user didnt work");
                 }
 
-                Intent intent = new Intent(MultiplayerGameplay.this, HighscoreMultiplayer.class);
+                Intent intent = new Intent(MultiplayerGameplay.this, GameOptionActivity.class);
                 continueButtonSaveHolder[0] = currentScore;
                 intent.putExtra("score", currentScore); // pass the current score to the second screen
                 startActivity(intent);
             } else {
+
+                System.out.println("Inside else statement");
                 try {
                     dbHandler.updateMultiPlayerHighscore1(currentScore,userNameID);
                 } catch (Exception e){
-                    System.out.println("This didnt work :D");
+
                 }
 
                 try {
                     dbHandler.updateMultiPlayerHighscore1(currentScore,opponentID);
                 } catch (Exception e){
-                    System.out.println("This didnt work :D");
+
                 }
 
-
-
+                dbHandler.createMatchTable(userNameID,0,currentScore,0);
                 dbHandler.deletePLayerFromInvite(userNameID);
+                progressBar.setVisibility(View.GONE);
                 Intent intent = new Intent(MultiplayerGameplay.this, GameOptionActivity.class);
                 System.out.println("Your match is still in progress");
                 startActivity(intent);
