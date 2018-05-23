@@ -166,8 +166,6 @@ public class GameOptionActivity extends AppCompatActivity {
 
 
 
-
-
                 dbHandler.insertToOpponent(opponentID, userNameID);
                 dbHandler.deletePLayerFrommultiplayer(opponentID);
                 dbHandler.setInviteToTrue(opponentID);

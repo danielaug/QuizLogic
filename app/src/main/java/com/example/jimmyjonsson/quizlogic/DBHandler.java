@@ -140,7 +140,7 @@ public class DBHandler {
                     PreparedStatement pstm = conn.prepareStatement("UPDATE quiztime.match SET `player2`=?,`h2`=? WHERE `user_iduser`=?");
                     pstm.setInt(1, playerTwoID);
                     pstm.setInt(2,highscore);
-                    pstm.setInt(2,opponentID);
+                    pstm.setInt(3,opponentID);
                     pstm.executeUpdate();
 
                     // execute the preparedstatement
