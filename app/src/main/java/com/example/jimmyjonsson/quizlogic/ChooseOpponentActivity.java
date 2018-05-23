@@ -82,6 +82,7 @@ public class ChooseOpponentActivity extends AppCompatActivity {
                     int playerOneID = userNameID;
                     String playerTwoName = spinnerSelection;
                     int playerTwoID = dbHandler.getIDofUserName(spinnerSelection);
+                    System.out.println(playerTwoID);
 
                     try {
                         dbHandler.deleteFromOpponent(userNameID);

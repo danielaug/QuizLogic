@@ -636,9 +636,9 @@ public class DBHandler {
 
 
                     PreparedStatement pstm = conn.prepareStatement("INSERT INTO opponentable (opponent,user_iduser) VALUES (?,?)");
+                    pstm.setInt(1,opponentID);
+                    pstm.setInt(2,ID);
                     pstm.execute();
-                    pstm.setInt(1, opponentID);
-                    pstm.setInt(2, ID);
 
 
                     conn.close();
@@ -678,7 +678,7 @@ public class DBHandler {
                     Connection conn = DriverManager.getConnection(myUrl);
 
 
-                    PreparedStatement pstm = conn.prepareStatement("DELETE FROM opponent WHERE user_iduser=" + ID);
+                    PreparedStatement pstm = conn.prepareStatement("DELETE FROM opponentable WHERE user_iduser=" + ID);
                     pstm.execute();
 
                     // the mysql insert statement
