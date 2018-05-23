@@ -591,7 +591,7 @@ public class DBHandler {
 
                     // the mysql insert statement
                     while (rs.next()) {
-                        opponentID = rs.getInt(2);
+                        opponentID = rs.getInt(1);
 
                     }
 
