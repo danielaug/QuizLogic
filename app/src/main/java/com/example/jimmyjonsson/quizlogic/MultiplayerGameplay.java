@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.countDownValueSaver;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.counter;
 import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.currentScoreCounter;
-import static com.example.jimmyjonsson.quizlogic.GameOptionActivity.opponentID;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.continueButtonSaveHolder;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHandler;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.userName;
@@ -196,12 +195,14 @@ public class MultiplayerGameplay extends AppCompatActivity {
 
         }
         else {
+            int getopponentID = dbHandler.getOpponent(userNameID);
             progressBar.setVisibility(View.VISIBLE);
             countDownValue = 0;
             counter = 0;
             timer.cancel();
 
             int highscore1=-1;
+            int highscore2=-1;
             int temp = -1;
             System.out.println(highscore1);
 
@@ -219,10 +220,12 @@ public class MultiplayerGameplay extends AppCompatActivity {
 
             try {
 
-                highscore1 = dbHandler.getHighScore1(opponentID);
+                highscore2 = dbHandler.getHighScore1(getopponentID);
+                System.out.println(getopponentID);
+                System.out.println(highscore2);
 
-                if(highscore1 > temp) {
-                    temp = highscore1;
+                if(highscore2 > temp) {
+                    temp = highscore2;
                 }
 
                 System.out.println(highscore1);
@@ -234,8 +237,8 @@ public class MultiplayerGameplay extends AppCompatActivity {
 
             if(temp!=-1) {
                 System.out.println("Inside if statement");
-                dbHandler.createMatchTable(userNameID,opponentID,currentScore,temp);
-                dbHandler.updateMatchTable(userNameID,currentScore,opponentID);
+                dbHandler.createMatchTable(userNameID,getopponentID,currentScore,temp);
+                dbHandler.updateMatchTable(userNameID,currentScore,getopponentID);
                 dbHandler.deletePLayerFromInvite(userNameID);
 
                 try {
@@ -245,13 +248,12 @@ public class MultiplayerGameplay extends AppCompatActivity {
                 }
 
                 try {
-                    dbHandler.deletePLayerFrommultiplayer(opponentID);
+                    dbHandler.deletePLayerFrommultiplayer(getopponentID);
                 } catch (Exception e){
                     System.out.println("delete multiplayer opponent user didnt work");
                 }
 
                 Intent intent = new Intent(MultiplayerGameplay.this, GameOptionActivity.class);
-                continueButtonSaveHolder[0] = currentScore;
                 intent.putExtra("score", currentScore); // pass the current score to the second screen
                 startActivity(intent);
             } else {
@@ -264,7 +266,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
                 }
 
                 try {
-                    dbHandler.updateMultiPlayerHighscore1(currentScore,opponentID);
+                    dbHandler.updateMultiPlayerHighscore1(currentScore,getopponentID);
                 } catch (Exception e){
 
                 }

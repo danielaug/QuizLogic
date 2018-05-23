@@ -24,11 +24,11 @@ import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
 
 public class GameOptionActivity extends AppCompatActivity {
 
-    public static int opponentID = 0;
+
     public static int counter;
     public static int currentScoreCounter;
     public static int countDownValueSaver;
-    public LoginActivity loginActivity;
+
 
 
     @Override
@@ -145,7 +145,7 @@ public class GameOptionActivity extends AppCompatActivity {
 
     }
     private void notifyMe() {
-       opponentID = dbHandler.getOpponentID(userName);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final int opponentID = dbHandler.getOpponentID(userName);
         final String opponent = dbHandler.getOpponentName(opponentID);
@@ -158,6 +158,17 @@ public class GameOptionActivity extends AppCompatActivity {
                 System.out.println("opponent" + opponent);
                 System.out.println("opponent id" + opponentID);
                 dbHandler.setInviteToTrue(opponentID);
+                try {
+                    dbHandler.deleteFromOpponent(userNameID);
+                } catch (Exception e) {
+
+                }
+
+
+
+
+
+                dbHandler.insertToOpponent(opponentID, userNameID);
                 dbHandler.deletePLayerFrommultiplayer(opponentID);
                 dbHandler.createMultiplayerTable(userNameID,opponent,-1,-1);
                 Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);

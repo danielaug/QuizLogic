@@ -569,6 +569,141 @@ public class DBHandler {
 
     }
 
+    public synchronized int getOpponent (int ID){
+        int opponentID = 0;
+
+        try {
+            ConnectionHelper conStr = new ConnectionHelper();
+            connect = conStr.connectionclasss();        // Connect to database
+            if (connect == null) {
+                ConnectionResult = "Check Your Internet Access!";
+            } else {
+
+                try {
+                    // create a mysql database connection
+                    String myDriver = "com.mysql.jdbc.Driver";
+                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
+                    Class.forName(myDriver);
+                    Connection conn = DriverManager.getConnection(myUrl);
+
+                    Statement statement = conn.createStatement();
+                    ResultSet rs = statement.executeQuery("SELECT * FROM `opponentable` where user_iduser='" + ID + "'");
+
+                    // the mysql insert statement
+                    while (rs.next()) {
+                        opponentID = rs.getInt(2);
+
+                    }
+
+
+
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("Got an exception!");
+                    System.err.println(e.getMessage());
+                }
+            }
+
+
+            ConnectionResult = " successful";
+            isSuccess = true;
+            connect.close();
+
+        } catch (Exception ex) {
+            isSuccess = false;
+            ConnectionResult = ex.getMessage();
+        }
+        return opponentID;
+
+    }
+
+    public synchronized int insertToOpponent (int opponentID,int ID){
+
+
+        try {
+            ConnectionHelper conStr = new ConnectionHelper();
+            connect = conStr.connectionclasss();        // Connect to database
+            if (connect == null) {
+                ConnectionResult = "Check Your Internet Access!";
+            } else {
+
+                try {
+                    // create a mysql database connection
+                    String myDriver = "com.mysql.jdbc.Driver";
+                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
+                    Class.forName(myDriver);
+                    Connection conn = DriverManager.getConnection(myUrl);
+
+
+                    PreparedStatement pstm = conn.prepareStatement("INSERT INTO opponentable (opponent,user_iduser) VALUES (?,?)");
+                    pstm.execute();
+                    pstm.setInt(1, opponentID);
+                    pstm.setInt(2, ID);
+
+
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("Got an exception!");
+                    System.err.println(e.getMessage());
+                }
+            }
+
+
+            ConnectionResult = " successful";
+            isSuccess = true;
+            connect.close();
+
+        } catch (Exception ex) {
+            isSuccess = false;
+            ConnectionResult = ex.getMessage();
+        }
+        return opponentID;
+
+    }
+
+
+    public synchronized void deleteFromOpponent (int ID){
+        try {
+            ConnectionHelper conStr = new ConnectionHelper();
+            connect = conStr.connectionclasss();        // Connect to database
+            if (connect == null) {
+                ConnectionResult = "Check Your Internet Access!";
+            } else {
+
+                try {
+                    // create a mysql database connection
+                    String myDriver = "com.mysql.jdbc.Driver";
+                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
+                    Class.forName(myDriver);
+                    Connection conn = DriverManager.getConnection(myUrl);
+
+
+                    PreparedStatement pstm = conn.prepareStatement("DELETE FROM opponent WHERE user_iduser=" + ID);
+                    pstm.execute();
+
+                    // the mysql insert statement
+
+
+
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("Got an exception!");
+                    System.err.println(e.getMessage());
+                }
+            }
+
+
+            ConnectionResult = " successful";
+            isSuccess = true;
+            connect.close();
+
+        } catch (Exception ex) {
+            isSuccess = false;
+            ConnectionResult = ex.getMessage();
+        }
+
+
+    }
 
 
     public synchronized void createMultiplayerTable(int playerOneID, String playerTwoID, int highscore1, int highscore2) {
