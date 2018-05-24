@@ -241,7 +241,7 @@ public class DBHandler {
                     pstm.setInt(1, high);
                     pstm.setInt(2, counter);
                     pstm.setInt(3, time);
-                    pstm.setInt(4,userID);
+                    pstm.setInt(4,userID);        
                     pstm.executeUpdate();
 
                     // execute the preparedstatement
@@ -1053,7 +1053,7 @@ public class DBHandler {
     }
 
     public synchronized int[] returnLatestMultiPlayerMatch(int playerID){
-        int[] results = new int[5];
+        int[] results = new int[4];
         int pos = 0;
         try {
             ConnectionHelper conStr = new ConnectionHelper();
