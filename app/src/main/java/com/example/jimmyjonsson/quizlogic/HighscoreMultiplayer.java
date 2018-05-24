@@ -45,7 +45,24 @@ public class HighscoreMultiplayer extends AppCompatActivity {
             }
         });
 
-        resultArray = getMatchInformation(userNameID);
+        try {
+            resultArray = getMatchInformation(userNameID);
+        } catch (NullPointerException ex){
+            try {
+                System.out.println(resultArray[0]);
+                System.out.println("Value at position 0 found.");
+                System.out.println(resultArray[1]);
+                System.out.println("Value at position 1 found.");
+                System.out.println(resultArray[2]);
+                System.out.println("Value at position 2 found.");
+                System.out.println(resultArray[3]);
+                System.out.println("Value at position 3 found.");
+                System.out.println(resultArray[4]);
+                System.out.println("Value at position 4 found.");
+            } catch (NullPointerException e){
+                System.out.println("Null pointer exception in resultArray");
+            }
+        }
 
         try {
             displayPlayerOne.setText("User: " + dbHandler.getOpponentName(resultArray[1]) + "\t Score: " + resultArray[3]);

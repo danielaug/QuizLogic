@@ -1069,13 +1069,19 @@ public class DBHandler {
                     Statement statement = conn.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `quiztime.match` WHERE user_userid='" + playerID + "' ORDER BY idmatch DESC LIMIT 1");
 
+                    System.out.println("Inserting values...");
                     while (rs.next()) {
                         results[0] = rs.getInt(1);
+                        System.out.println(results[0]);
                         results[1] = rs.getInt(2);
+                        System.out.println(results[1]);
                         results[2] = rs.getInt(3);
+                        System.out.println(results[2]);
                         results[3] = rs.getInt(4);
+                        System.out.println(results[3]);
                         results[4] = rs.getInt(5);
                     }
+                    System.out.println("Values above inserted in match table.");
 
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
