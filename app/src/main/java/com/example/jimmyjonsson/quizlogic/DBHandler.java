@@ -1068,15 +1068,12 @@ public class DBHandler {
                     Connection conn = DriverManager.getConnection(myUrl);
 
                     Statement statement = conn.createStatement();
-                    ResultSet rs = statement.executeQuery("SELECT * FROM `match` WHERE user_userid='" + playerID + "' ASC LIMIT 1");
+                    ResultSet rs = statement.executeQuery("SELECT * FROM `quiztime.match` WHERE user_userid='" + playerID + "' ORDER BY idmatch DESC LIMIT 1");
 
                     while (rs.next()) {
                         results[pos] = rs.getInt((pos+1));
                         pos++;
                     }
-
-
-
 
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
