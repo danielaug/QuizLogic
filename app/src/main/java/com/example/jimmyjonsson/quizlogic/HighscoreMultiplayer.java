@@ -112,7 +112,14 @@ public class HighscoreMultiplayer extends AppCompatActivity {
 
 
     public int[] getMatchInformation(int userID){
-        return dbHandler.returnLatestMultiPlayerMatch(userID);
+        int[] returnArray = {1, 1, 1, 1, 1};
+        returnArray = dbHandler.returnLatestMultiPlayerMatch(userID);
+        System.out.println(returnArray[0]);
+        System.out.println(returnArray[1]);
+        System.out.println(returnArray[2]);
+        System.out.println(returnArray[3]);
+        System.out.println(returnArray[4]);
+        return returnArray;
     }
 
 
