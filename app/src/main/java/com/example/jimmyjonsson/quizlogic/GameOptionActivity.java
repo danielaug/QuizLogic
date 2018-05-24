@@ -114,7 +114,7 @@ public class GameOptionActivity extends AppCompatActivity {
 
                 if(position == 3) {
                     handler.removeCallbacksAndMessages(null);
-                    Intent intent = new Intent(GameOptionActivity.this, HighscoreActivity.class);
+                    Intent intent = new Intent(GameOptionActivity.this, HighscoreMultiplayer.class);
                     startActivity(intent);
                 }
 
