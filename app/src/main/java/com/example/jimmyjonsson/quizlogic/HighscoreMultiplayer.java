@@ -34,6 +34,7 @@ public class HighscoreMultiplayer extends AppCompatActivity {
         displayPlayerTwo = (TextView) findViewById(R.id.textPlayerTwo);
         Button button = (Button) findViewById(R.id.button12);
         defaultString = "No values found.";
+        resultArray = new int[5];
 
 
         button.setOnClickListener(new View.OnClickListener() {
