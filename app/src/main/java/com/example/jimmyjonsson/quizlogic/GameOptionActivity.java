@@ -157,7 +157,7 @@ public class GameOptionActivity extends AppCompatActivity {
                 System.out.println("UserID" + userNameID);
                 System.out.println("opponent" + opponent);
                 System.out.println("opponent id" + opponentID);
-                dbHandler.setInviteToTrue(opponentID);
+
                 try {
                     dbHandler.deleteFromOpponent(userNameID);
                 } catch (Exception e) {
@@ -166,10 +166,9 @@ public class GameOptionActivity extends AppCompatActivity {
 
 
 
-
-
                 dbHandler.insertToOpponent(opponentID, userNameID);
                 dbHandler.deletePLayerFrommultiplayer(opponentID);
+                dbHandler.setInviteToTrue(opponentID);
                 dbHandler.createMultiplayerTable(userNameID,opponent,-1,-1);
                 Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);
                 startActivity(intent);

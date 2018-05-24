@@ -140,7 +140,7 @@ public class DBHandler {
                     PreparedStatement pstm = conn.prepareStatement("UPDATE quiztime.match SET `player2`=?,`h2`=? WHERE `user_iduser`=?");
                     pstm.setInt(1, playerTwoID);
                     pstm.setInt(2,highscore);
-                    pstm.setInt(2,opponentID);
+                    pstm.setInt(3,opponentID);
                     pstm.executeUpdate();
 
                     // execute the preparedstatement
@@ -591,7 +591,7 @@ public class DBHandler {
 
                     // the mysql insert statement
                     while (rs.next()) {
-                        opponentID = rs.getInt(2);
+                        opponentID = rs.getInt(1);
 
                     }
 
@@ -636,9 +636,9 @@ public class DBHandler {
 
 
                     PreparedStatement pstm = conn.prepareStatement("INSERT INTO opponentable (opponent,user_iduser) VALUES (?,?)");
+                    pstm.setInt(1,opponentID);
+                    pstm.setInt(2,ID);
                     pstm.execute();
-                    pstm.setInt(1, opponentID);
-                    pstm.setInt(2, ID);
 
 
                     conn.close();
@@ -678,7 +678,7 @@ public class DBHandler {
                     Connection conn = DriverManager.getConnection(myUrl);
 
 
-                    PreparedStatement pstm = conn.prepareStatement("DELETE FROM opponent WHERE user_iduser=" + ID);
+                    PreparedStatement pstm = conn.prepareStatement("DELETE FROM opponentable WHERE user_iduser=" + ID);
                     pstm.execute();
 
                     // the mysql insert statement

@@ -208,6 +208,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
 
             try {
               highscore1 = dbHandler.getHighScore1(userNameID);
+                System.out.println(highscore1);
 
               if(highscore1 > temp) {
                   temp = highscore1;
