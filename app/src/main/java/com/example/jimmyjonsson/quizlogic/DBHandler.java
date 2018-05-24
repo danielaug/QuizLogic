@@ -1053,8 +1053,7 @@ public class DBHandler {
     }
 
     public synchronized int[] returnLatestMultiPlayerMatch(int playerID){
-        int[] results = new int[4];
-        int pos = 0;
+        int[] results = {0, 0, 0, 0, 0};
         try {
             ConnectionHelper conStr = new ConnectionHelper();
             connect = conStr.connectionclasss();        // Connect to database
@@ -1071,8 +1070,11 @@ public class DBHandler {
                     ResultSet rs = statement.executeQuery("SELECT * FROM `quiztime.match` WHERE user_userid='" + playerID + "' ORDER BY idmatch DESC LIMIT 1");
 
                     while (rs.next()) {
-                        results[pos] = rs.getInt((pos+1));
-                        pos++;
+                        results[0] = rs.getInt(1);
+                        results[1] = rs.getInt(2);
+                        results[2] = rs.getInt(3);
+                        results[3] = rs.getInt(4);
+                        results[4] = rs.getInt(5);
                     }
 
                 } catch (Exception e) {
