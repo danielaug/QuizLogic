@@ -54,11 +54,8 @@ public class LoginActivity extends AppCompatActivity {
                     userName = usernameField.getText().toString();
                     userNameID = dbHandler.getIDofUserName(usernameField.getText().toString());
                     continueButtonSaveHolder = dbHandler.readFromSave(userNameID);
-                    for(int i = 0; i < continueButtonSaveHolder.length; i++) {
-                        Log.e("SICK MAYN", Integer.toString(continueButtonSaveHolder[i]));
-                    }
-
-
+                    int m =  dbHandler.getHighScore1(userNameID);
+                    System.out.println(m);
 
                     startActivity(intent);
 

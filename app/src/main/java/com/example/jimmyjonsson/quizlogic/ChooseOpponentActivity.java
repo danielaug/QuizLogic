@@ -40,7 +40,7 @@ public class ChooseOpponentActivity extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.opponentsSpinner);
         Button challengeButton = (Button) findViewById(R.id.challengeButton);
         Button backButton = (Button) findViewById(R.id.backButton);
-        TextView description = (TextView) findViewById(R.id.chooseOpponentTextView);
+        final TextView description = (TextView) findViewById(R.id.chooseOpponentTextView);
 
         spinnerSelection = "";
         String s = "Select opponent: ";
@@ -82,6 +82,16 @@ public class ChooseOpponentActivity extends AppCompatActivity {
                     int playerOneID = userNameID;
                     String playerTwoName = spinnerSelection;
                     int playerTwoID = dbHandler.getIDofUserName(spinnerSelection);
+                    System.out.println(playerTwoID);
+
+                    try {
+                        dbHandler.deleteFromOpponent(userNameID);
+                    } catch (Exception e) {
+
+                    }
+
+
+                    dbHandler.insertToOpponent(playerTwoID,userNameID);
 
                      boolean confirmInvite =  dbHandler.checkInvite(playerTwoID);
                     System.out.println(confirmInvite);

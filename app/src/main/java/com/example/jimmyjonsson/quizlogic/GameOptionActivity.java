@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,8 +15,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.dbHandler;
 import static com.example.jimmyjonsson.quizlogic.LoginActivity.continueButtonSaveHolder;
@@ -27,10 +24,11 @@ import static com.example.jimmyjonsson.quizlogic.LoginActivity.userNameID;
 
 public class GameOptionActivity extends AppCompatActivity {
 
+
     public static int counter;
     public static int currentScoreCounter;
     public static int countDownValueSaver;
-    public LoginActivity loginActivity;
+
 
 
     @Override
@@ -52,7 +50,7 @@ public class GameOptionActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     boolean inviteChecker = dbHandler.checkInvite(userNameID);
-                    int opponentID2 = dbHandler.getOpponentID(userName);
+                   int opponentID2 = dbHandler.getOpponentID(userName);
                     boolean inviteCheckerOpponent = dbHandler.checkInvite(opponentID2);
 
                     if (inviteCheckerOpponent && inviteChecker) {
@@ -147,6 +145,7 @@ public class GameOptionActivity extends AppCompatActivity {
 
     }
     private void notifyMe() {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final int opponentID = dbHandler.getOpponentID(userName);
         final String opponent = dbHandler.getOpponentName(opponentID);
@@ -158,8 +157,18 @@ public class GameOptionActivity extends AppCompatActivity {
                 System.out.println("UserID" + userNameID);
                 System.out.println("opponent" + opponent);
                 System.out.println("opponent id" + opponentID);
-                dbHandler.setInviteToTrue(opponentID);
+
+                try {
+                    dbHandler.deleteFromOpponent(userNameID);
+                } catch (Exception e) {
+
+                }
+
+
+
+                dbHandler.insertToOpponent(opponentID, userNameID);
                 dbHandler.deletePLayerFrommultiplayer(opponentID);
+                dbHandler.setInviteToTrue(opponentID);
                 dbHandler.createMultiplayerTable(userNameID,opponent,-1,-1);
                 Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);
                 startActivity(intent);
