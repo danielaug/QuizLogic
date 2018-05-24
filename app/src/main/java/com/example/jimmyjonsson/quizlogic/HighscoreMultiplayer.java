@@ -39,12 +39,8 @@ public class HighscoreMultiplayer extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                counter = 0;
-                dbHandler.updateSaveTable(0,0,0,userNameID);
                 Intent intent = new Intent(HighscoreMultiplayer.this, GameOptionActivity.class);
                 startActivity(intent);
-
-
             }
         });
 
