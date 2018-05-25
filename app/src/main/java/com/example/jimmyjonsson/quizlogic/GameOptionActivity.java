@@ -66,7 +66,7 @@ public class GameOptionActivity extends AppCompatActivity {
                     }
 
                 }
-            }, 40000);  //the time is in miliseconds
+            }, 10000);  //the time is in miliseconds
 
 
         final String[] menuItems = {"Continue", "New Game", "Challenge Another Player", "Highscore", "Quit"};
@@ -114,7 +114,7 @@ public class GameOptionActivity extends AppCompatActivity {
 
                 if(position == 3) {
                     handler.removeCallbacksAndMessages(null);
-                    Intent intent = new Intent(GameOptionActivity.this, HighscoreMultiplayer.class);
+                    Intent intent = new Intent(GameOptionActivity.this, ChooseHighscore.class);
                     startActivity(intent);
                 }
 

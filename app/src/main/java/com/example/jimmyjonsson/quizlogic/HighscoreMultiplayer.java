@@ -29,7 +29,6 @@ public class HighscoreMultiplayer extends AppCompatActivity {
         setContentView(R.layout.activity_highscore_multiplayer);
 
 
-
         displayPlayerOne = (TextView) findViewById(R.id.textPlayerOne);
         displayPlayerTwo = (TextView) findViewById(R.id.textPlayerTwo);
         Button button = (Button) findViewById(R.id.button12);
