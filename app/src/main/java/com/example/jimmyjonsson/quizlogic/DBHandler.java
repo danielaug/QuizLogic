@@ -1053,7 +1053,8 @@ public class DBHandler {
     }
 
     public synchronized int[] returnLatestMultiPlayerMatch(int playerID){
-        int[] results = {0, 0, 0, 0, 0};
+        System.out.println("JDJD");
+        int[] results = {0,0,0,0,0};
         try {
             ConnectionHelper conStr = new ConnectionHelper();
             connect = conStr.connectionclasss();        // Connect to database
@@ -1072,14 +1073,11 @@ public class DBHandler {
                     System.out.println("Inserting values...");
                     while (rs.next()) {
                         results[0] = rs.getInt(1);
-                        System.out.println(results[0]);
                         results[1] = rs.getInt(2);
-                        System.out.println(results[1]);
                         results[2] = rs.getInt(3);
-                        System.out.println(results[2]);
                         results[3] = rs.getInt(4);
-                        System.out.println(results[3]);
                         results[4] = rs.getInt(5);
+
                     }
                     System.out.println("Values above inserted in match table.");
 
