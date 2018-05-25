@@ -17,14 +17,20 @@ import static com.example.jimmyjonsson.quizlogic.LoginActivity.connectionHelper;
 
 public class DBHandler {
     private final String connectionURL;
+    Connection connect;
+
 
 
     public DBHandler() {
+
+        connectionHelper = new ConnectionHelper();
+        connect = connectionHelper.connectionclasss();
+
         connectionURL = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
     }
 
 
-    Connection connect;
+
     String ConnectionResult = "";
     Boolean isSuccess = false;
 
@@ -80,18 +86,18 @@ public class DBHandler {
     }
 
     public synchronized void updateMultiPlayerHighscore1(int high, int userID) {
-        try (Connection conn = connectionHelper.connectionclasss()) {
+        try  {
 
 
-                    PreparedStatement pstm = conn.prepareStatement("UPDATE `multiplayer` SET `highscore1`=? WHERE `username`=?");
+                    PreparedStatement pstm = connect.prepareStatement("UPDATE `multiplayer` SET `highscore1`=? WHERE `username`=?");
                     pstm.setInt(1, high);
                     pstm.setInt(2,userID);
                     pstm.executeUpdate();
 
                     // execute the preparedstatement
 
+                    pstm.close();
 
-                    conn.close();
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -104,8 +110,8 @@ public class DBHandler {
     public synchronized void updateMatchTable(int playerTwoID, int highscore, int opponentID) {
 
 
-        try (Connection conn = connectionHelper.connectionclasss()) {
-                    PreparedStatement pstm = conn.prepareStatement("UPDATE quiztime.match SET `player2`=?,`h2`=? WHERE `user_iduser`=?");
+        try  {
+                    PreparedStatement pstm = connect.prepareStatement("UPDATE quiztime.match SET `player2`=?,`h2`=? WHERE `user_iduser`=?");
                     pstm.setInt(1, playerTwoID);
                     pstm.setInt(2,highscore);
                     pstm.setInt(3,opponentID);
@@ -114,7 +120,8 @@ public class DBHandler {
                     // execute the preparedstatement
 
 
-                    conn.close();
+            pstm.close();
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -123,8 +130,8 @@ public class DBHandler {
 
     public synchronized void updateSaveTable(int high, int counter, int time, int userID) {
 
-        try (Connection conn = connectionHelper.connectionclasss()) {
-                    PreparedStatement pstm = conn.prepareStatement("UPDATE `save` SET `highscore`=?, `counter`=?, `time`=? WHERE `user_iduser`=?");
+        try  {
+                    PreparedStatement pstm = connect.prepareStatement("UPDATE `save` SET `highscore`=?, `counter`=?, `time`=? WHERE `user_iduser`=?");
                     pstm.setInt(1, high);
                     pstm.setInt(2, counter);
                     pstm.setInt(3, time);
@@ -134,7 +141,8 @@ public class DBHandler {
                     // execute the preparedstatement
 
 
-                    conn.close();
+            pstm.close();
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -144,8 +152,8 @@ public class DBHandler {
 
     public synchronized void insertSaveTable(int high, int counter, int time, int userID) {
 
-        try (Connection conn = connectionHelper.connectionclasss()) {
-                    PreparedStatement pstm = conn.prepareStatement("INSERT INTO save (highscore,counter,time,user_iduser) VALUES (?,?,?,?)");
+        try  {
+                    PreparedStatement pstm = connect.prepareStatement("INSERT INTO save (highscore,counter,time,user_iduser) VALUES (?,?,?,?)");
                     pstm.setInt(1, high);
                     pstm.setInt(2, counter);
                     pstm.setInt(3, time);
@@ -155,7 +163,8 @@ public class DBHandler {
                     // execute the preparedstatement
 
 
-                    conn.close();
+            pstm.close();
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -169,8 +178,8 @@ public class DBHandler {
     public synchronized ArrayList<User> getPLayer() {
         String m = null;
         ArrayList<User> viewPlayers = new ArrayList<>();
-        try (Connection conn = connectionHelper.connectionclasss()) {
-                    Statement statement = conn.createStatement();
+        try  {
+                    Statement statement = connect.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `user`");
 
                     // the mysql insert statement
@@ -180,6 +189,7 @@ public class DBHandler {
 
                     }
 
+            rs.close();
 
 
                 } catch (Exception e) {
@@ -192,8 +202,8 @@ public class DBHandler {
 
     public synchronized int getIDofUserName(String userName) {
         int theID = 0;
-        try (Connection conn = connectionHelper.connectionclasss()) {
-                    Statement statement = conn.createStatement();
+        try  {
+                    Statement statement = connect.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM user where userName='" + userName + "'");
 
                     while (rs.next()) {
@@ -201,6 +211,7 @@ public class DBHandler {
 
                     }
 
+                    rs.close();
 
                     // execute the preparedstatement
 
@@ -217,17 +228,18 @@ public class DBHandler {
 
     public synchronized void newHighScore ( int ID, int highscore){
 
-        try (Connection conn = connectionHelper.connectionclasss()) {
+        try  {
 
 
-                    PreparedStatement pstm = conn.prepareStatement("UPDATE `user` SET `highscore`=? WHERE `iduser`=?");
+                    PreparedStatement pstm = connect.prepareStatement("UPDATE `user` SET `highscore`=? WHERE `iduser`=?");
                     pstm.setInt(1, highscore);
                     pstm.setInt(2, ID);
                     pstm.executeUpdate();
 
 
 
-                    conn.close();
+            pstm.close();
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -237,8 +249,8 @@ public class DBHandler {
     public synchronized int[] readFromSave ( int ID){
         int[] myArray = {0, 0, 0};
 
-        try (Connection conn = connectionHelper.connectionclasss()) {
-            Statement statement = conn.createStatement();
+        try  {
+            Statement statement = connect.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `save` where user_iduser='" + ID + "'");
 
                     // the mysql insert statement
@@ -249,6 +261,7 @@ public class DBHandler {
 
                     }
 
+            rs.close();
 
 
                 } catch (Exception e) {
@@ -264,8 +277,8 @@ public class DBHandler {
 
     public synchronized int getHighScore ( int ID){
         int highscore = 0;
-        try (Connection conn = connectionHelper.connectionclasss()) {
-                    Statement statement = conn.createStatement();
+        try {
+                    Statement statement = connect.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `user` where iduser='" + ID + "'");
 
                     // the mysql insert statement
@@ -276,7 +289,8 @@ public class DBHandler {
 
 
 
-                    conn.close();
+
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -289,8 +303,8 @@ public class DBHandler {
 
     public synchronized int getHighScore1 ( int ID){
         int highscore = -1;
-        try (Connection conn = connectionHelper.connectionclasss()) {
-                    Statement statement = conn.createStatement();
+        try  {
+                    Statement statement = connect.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `multiplayer` where username='" + ID + "'");
 
                     // the mysql insert statement
@@ -301,7 +315,8 @@ public class DBHandler {
 
 
 
-                    conn.close();
+            rs.close();
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -313,8 +328,8 @@ public class DBHandler {
 
     public synchronized int getOpponent (int ID){
         int opponentID = 0;
-        try (Connection conn = connectionHelper.connectionclasss()) {
-                    Statement statement = conn.createStatement();
+        try  {
+                    Statement statement = connect.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `opponentable` where user_iduser='" + ID + "'");
 
                     // the mysql insert statement
@@ -323,9 +338,10 @@ public class DBHandler {
 
                     }
 
+            rs.close();
 
 
-                    conn.close();
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -341,14 +357,15 @@ public class DBHandler {
 
     public synchronized int insertToOpponent (int opponentID,int ID){
 
-        try (Connection conn = DriverManager.getConnection(connectionURL)) {
-                    PreparedStatement pstm = conn.prepareStatement("INSERT INTO opponentable (opponent,user_iduser) VALUES (?,?)");
+        try  {
+                    PreparedStatement pstm = connect.prepareStatement("INSERT INTO opponentable (opponent,user_iduser) VALUES (?,?)");
                     pstm.setInt(1,opponentID);
                     pstm.setInt(2,ID);
                     pstm.execute();
 
 
-                    conn.close();
+            pstm.close();
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -361,15 +378,16 @@ public class DBHandler {
 
 
     public synchronized void deleteFromOpponent (int ID){
-        try (Connection conn = DriverManager.getConnection(connectionURL)) {
-                    PreparedStatement pstm = conn.prepareStatement("DELETE FROM opponentable WHERE user_iduser=" + ID);
+        try  {
+                    PreparedStatement pstm = connect.prepareStatement("DELETE FROM opponentable WHERE user_iduser=" + ID);
                     pstm.execute();
 
                     // the mysql insert statement
 
 
 
-                    conn.close();
+            pstm.close();
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -378,15 +396,16 @@ public class DBHandler {
 
 
     public synchronized void createMultiplayerTable(int playerOneID, String playerTwoID, int highscore1, int highscore2) {
-        try (Connection conn = DriverManager.getConnection(connectionURL)) {
-                    PreparedStatement pstm = conn.prepareStatement("INSERT INTO multiplayer (username, opponent, highscore1, highscore2) VALUES (?,?,?,?)");
+        try {
+                    PreparedStatement pstm = connect.prepareStatement("INSERT INTO multiplayer (username, opponent, highscore1, highscore2) VALUES (?,?,?,?)");
                     pstm.setInt(1, playerOneID);
                     pstm.setString(2, playerTwoID);
                     pstm.setInt(3, highscore1);
                     pstm.setInt(4, highscore2);
                     pstm.executeUpdate();
 
-                    conn.close();
+            pstm.close();
+
 
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
@@ -396,9 +415,9 @@ public class DBHandler {
 
     public synchronized String getOpponentName(int ID){
         String user = null;
-        try (Connection conn = connectionHelper.connectionclasss()) {
+        try  {
 
-                    Statement statement = conn.createStatement();
+                    Statement statement = connect.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `user` where iduser='" + ID + "'");
 
                     // the mysql insert statement
@@ -409,7 +428,8 @@ public class DBHandler {
 
 
 
-                    conn.close();
+            rs.close();
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -423,10 +443,10 @@ public class DBHandler {
 
     public synchronized int getOpponentID(String ID){
         int user = 0;
-        try (Connection conn = DriverManager.getConnection(connectionURL)) {
+        try  {
                     // create a mysql database connection
 
-                    Statement statement = conn.createStatement();
+                    Statement statement = connect.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `multiplayer` where opponent='" + ID + "'");
 
                     // the mysql insert statement
@@ -437,7 +457,8 @@ public class DBHandler {
 
 
 
-                    conn.close();
+            rs.close();
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -448,8 +469,8 @@ public class DBHandler {
     }
     public synchronized boolean checkInvite(int ID){
                 boolean checker = false;
-        try (Connection conn = connectionHelper.connectionclasss()) {
-                    Statement statement = conn.createStatement();
+        try  {
+                    Statement statement = connect.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `invite` where user_iduser='" + ID + "'");
 
                     // the mysql insert statement
@@ -460,7 +481,8 @@ public class DBHandler {
 
 
 
-                    conn.close();
+            rs.close();
+
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
@@ -471,9 +493,9 @@ public class DBHandler {
 
 
     public synchronized void createMatchTable(int playerID, int playerIDTwo, int highscore1,int highscore2) { // Replace multiplayer ID with the respondents player ID?
-        try (Connection conn = connectionHelper.connectionclasss()) {
+        try {
 
-                    PreparedStatement pstm = conn.prepareStatement("INSERT INTO quiztime.match (user_iduser,player2,h1,h2) VALUES (?,?,?,?)");
+                    PreparedStatement pstm = connect.prepareStatement("INSERT INTO quiztime.match (user_iduser,player2,h1,h2) VALUES (?,?,?,?)");
                     pstm.setInt(1, playerID);
                     pstm.setInt(2, playerIDTwo);
                     pstm.setInt(3, highscore1);
@@ -481,7 +503,8 @@ public class DBHandler {
 
                     pstm.execute();
 
-                    conn.close();
+            pstm.close();
+
 
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
@@ -491,16 +514,17 @@ public class DBHandler {
 
     }
     public synchronized void setInviteToTrue(int playerID) { // Replace multiplayer ID with the respondents player ID?
-            try (Connection conn = DriverManager.getConnection(connectionURL)) {
+            try {
 
                 System.out.println("WOW");
-                    PreparedStatement pstm = conn.prepareStatement("INSERT INTO invite (user_iduser,state) VALUES (?,?)");
+                    PreparedStatement pstm = connect.prepareStatement("INSERT INTO invite (user_iduser,state) VALUES (?,?)");
                     pstm.setInt(1,playerID);
                     pstm.setBoolean(2,true);
 
                     pstm.execute();
 
-                    conn.close();
+                pstm.close();
+
 
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
@@ -513,14 +537,15 @@ public class DBHandler {
 
 
     public synchronized void deletePLayerFromInvite(int index) {
-        try (Connection conn = connectionHelper.connectionclasss()) {
+        try {
                     System.out.println("WOW");
-                    PreparedStatement pstm = conn.prepareStatement("DELETE FROM invite WHERE user_iduser=" + index);
+                    PreparedStatement pstm = connect.prepareStatement("DELETE FROM invite WHERE user_iduser=" + index);
 
                     pstm.execute();
 
 
-                    conn.close();
+            pstm.close();
+
 
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
@@ -530,13 +555,14 @@ public class DBHandler {
 
     }
     public synchronized void deletePLayerFrommultiplayer(int opponent) {
-        try (Connection conn = connectionHelper.connectionclasss()) {
+        try {
 
-                    PreparedStatement pstm = conn.prepareStatement("DELETE FROM multiplayer WHERE username=" + opponent);
+                    PreparedStatement pstm = connect.prepareStatement("DELETE FROM multiplayer WHERE username=" + opponent);
                     pstm.execute();
 
 
-                    conn.close();
+            pstm.close();
+
 
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
