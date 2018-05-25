@@ -66,7 +66,7 @@ public class GameOptionActivity extends AppCompatActivity {
                     }
 
                 }
-            }, 40000);  //the time is in miliseconds
+            }, 10000);  //the time is in miliseconds
 
 
         final String[] menuItems = {"Continue", "New Game", "Challenge Another Player", "Highscore", "Quit"};

@@ -18,15 +18,19 @@ public class LoginActivity extends AppCompatActivity {
     public ArrayList<User> userList;
     public static  DBHandler dbHandler;
     public static int [] continueButtonSaveHolder;
+    public static ConnectionHelper connectionHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        connectionHelper = new ConnectionHelper();
+        connectionHelper.connectionclasss();
 
         userList = new ArrayList<>();
         dbHandler = new DBHandler();
         userList = dbHandler.getPLayer();
+        System.out.println("wtf");
 
 
         Button button = (Button) findViewById(R.id.buttonloginMenu);
@@ -53,10 +57,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (authentication(usernameField.getText().toString(),passwordField.getText().toString())){
                     userName = usernameField.getText().toString();
                     userNameID = dbHandler.getIDofUserName(usernameField.getText().toString());
+                    System.out.println(userNameID);
                     continueButtonSaveHolder = dbHandler.readFromSave(userNameID);
-                    int m =  dbHandler.getHighScore1(userNameID);
-                    System.out.println(m);
-
                     startActivity(intent);
 
 
