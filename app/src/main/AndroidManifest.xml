@@ -31,7 +31,8 @@
             android:label="@string/title_activity_game_option"
             android:theme="@style/AppTheme" />
         <activity android:name=".MultiplayerGameplay" />
-        <activity android:name=".HighscoreMultiplayer"></activity>
+        <activity android:name=".HighscoreMultiplayer" />
+        <activity android:name=".HighscoreActivityNew"></activity>
     </application>
 
 </manifest>

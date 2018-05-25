@@ -1080,6 +1080,7 @@ public class DBHandler {
                         results[3] = rs.getInt(4);
                         System.out.println(results[3]);
                         results[4] = rs.getInt(5);
+
                     }
                     System.out.println("Values above inserted in match table.");
 
