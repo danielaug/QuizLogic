@@ -597,5 +597,31 @@ public class DBHandler {
 
     }
 
+    public synchronized int[] readFromUser (){
+        int[] myArray = {0, 0};
+
+        try (Connection conn = connectionHelper.connectionclasss()) {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT userName, highscore FROM user ORDER BY highscore DESC");
+
+            // the mysql insert statement
+            while (rs.next()) {
+                myArray[0] = rs.getInt(2);
+                myArray[1] = rs.getInt(4);
+
+            }
+
+
+
+        } catch (Exception e) {
+            System.err.println("Got an exception!");
+            System.err.println(e.getMessage());
+        }
+
+
+        return myArray;
+
+    }
+
 
 }

@@ -23,7 +23,7 @@ public class ChooseHighscore extends AppCompatActivity{
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChooseHighscore.this, HighscoreActivity.class);
+                Intent intent = new Intent(ChooseHighscore.this, HighscoreActivityNew.class);
                 startActivity(intent);
             }
         });
