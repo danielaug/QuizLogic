@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
@@ -19,18 +20,19 @@ public class LoginActivity extends AppCompatActivity {
     public static  DBHandler dbHandler;
     public static int [] continueButtonSaveHolder;
     public static ConnectionHelper connectionHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        connectionHelper = new ConnectionHelper();
-        connectionHelper.connectionclasss();
+
+
+
 
         userList = new ArrayList<>();
         dbHandler = new DBHandler();
         userList = dbHandler.getPLayer();
-        System.out.println("wtf");
 
 
         Button button = (Button) findViewById(R.id.buttonloginMenu);
