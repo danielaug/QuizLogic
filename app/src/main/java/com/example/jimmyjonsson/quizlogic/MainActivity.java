@@ -94,9 +94,12 @@ public class MainActivity extends AppCompatActivity {
         buttonQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("TEST","TEST");
 
-                updateSharedPref();
-                dbHandler.updateSaveTable(currentScore,currentQuestionNumber,countDownValue,userNameID);
+
+                System.out.println("Clicked");
+                dbHandler.updateSaveTable(currentScore,counter,countDownValue,userNameID);
+                countDownValue=0;
                 Intent intent = new Intent(MainActivity.this, GameOptionActivity.class);
                 startActivity(intent);
 
@@ -127,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                             if (checkHighScore(userNameID, currentScore)) {
                                 updateHighScore(userNameID, currentScore);
                             }
+                            Log.e("Hm","Hm");
                             Intent intentToResult = new Intent(context, HighscoreActivity.class);
                             intentToResult.putExtra("score",currentScore);
                             context.startActivity(intentToResult);
@@ -201,8 +205,8 @@ public class MainActivity extends AppCompatActivity {
             if (checkHighScore(userNameID, currentScore)) {
                 updateHighScore(userNameID, currentScore);
             }
+            Log.e("mm","mm");
             Intent intent = new Intent(MainActivity.this, HighscoreActivity.class);
-            continueButtonSaveHolder[0] = currentScore;
             intent.putExtra("score", currentScore); // pass the current score to the second screen
             startActivity(intent);
 

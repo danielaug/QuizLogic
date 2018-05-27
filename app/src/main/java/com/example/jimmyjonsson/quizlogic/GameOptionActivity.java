@@ -86,7 +86,7 @@ public class GameOptionActivity extends AppCompatActivity {
                     handler.removeCallbacksAndMessages(null);
                     Log.e("asdas", String.valueOf(counter));
                     if(counter <= 0 || counter > 9) {
-                        Toast.makeText(GameOptionActivity.this, "Nothing here", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GameOptionActivity.this, "Nothing here, play a new game.", Toast.LENGTH_SHORT).show();
                     }
                  else  {
                         Intent intent = new Intent(GameOptionActivity.this, MainActivity.class);

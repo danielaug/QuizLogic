@@ -6,16 +6,16 @@ public class QuizStorage {
 
 
     private String quizQuestions [] = {
-            "1. What is the capital city of India?",
-            "2. What is the name of the president currently in charge of Russia?",
-            "3. Which country won the World Championship in football, 2010?",
-            "4. Which is the biggest mountain in the world",
-            "5. Which artist painted the famous picture 'Skriet'? ",
-            "6. Name the largest ocean in the world",
-            "7. Who played the character Neo in the movie, The Matrix?",
-            "8. Which color is a Welsh poppy?",
-            "9. In 2011, which country hosted a Formula 1 race for the first time?",
-            "10. Name the three primary colours",
+            "What is the capital city of India?",
+            "What is the name of the president currently in charge of Russia?",
+            "Which country won the World Championship in football, 2010?",
+            "Which is the biggest mountain in the world",
+            "Which artist painted the famous picture 'Skriet'? ",
+            "Name the largest ocean in the world",
+            "Who played the character Neo in the movie, The Matrix?",
+            "Which color is a Welsh poppy?",
+            "In 2011, which country hosted a Formula 1 race for the first time?",
+            "Name the three primary colours",
     };
 
     private String quizAnswers [][] = {
