@@ -594,6 +594,7 @@ public class DBHandler {
                     Statement statement = conn.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `match` WHERE user_iduser='" + playerID + "' ORDER BY idmatch DESC LIMIT 1");
 
+                    
                     System.out.println("Inserting values...");
                     while (rs.next()) {
                         results[0] = rs.getInt(1);
