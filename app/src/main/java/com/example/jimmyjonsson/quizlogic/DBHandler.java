@@ -579,19 +579,8 @@ public class DBHandler {
         int[] results = {0,0,0,0,0};
         System.out.println("The method to return the latest multi player match has been reached.");
         System.out.println("The user ID passed to the method: " + playerID);
-        try {
-            ConnectionHelper conStr = new ConnectionHelper();
-            connect = conStr.connectionclasss();        // Connect to database
-            if (connect == null) {
-                ConnectionResult = "Check Your Internet Access!";
-            } else {
                 try {
-                    String myDriver = "com.mysql.jdbc.Driver";
-                    String myUrl = "jdbc:mysql://mysql4.gear.host:3306/quiztime?user=quiztime&password=hejhejhej!";
-                    Class.forName(myDriver);
-                    Connection conn = DriverManager.getConnection(myUrl);
-
-                    Statement statement = conn.createStatement();
+                    Statement statement = connect.createStatement();
                     ResultSet rs = statement.executeQuery("SELECT * FROM `match` WHERE user_iduser='" + playerID + "' ORDER BY idmatch DESC LIMIT 1");
 
                     
@@ -610,23 +599,13 @@ public class DBHandler {
 
                     }
 
-                    rs.close();
+
 
                 } catch (Exception e) {
                     System.err.println("Got an exception!");
                     System.err.println(e.getMessage());
                 }
-            }
 
-            ConnectionResult = " successful";
-            isSuccess = true;
-            System.out.println("Connection was closed successfully.");
-            connect.close();
-
-        } catch (Exception e) {
-            isSuccess = false;
-            ConnectionResult = e.getMessage();
-        }
         return results;
         //returns an int array with matchID (not important), player1_id, player2_id, highscore1 and highscore 2.
 
