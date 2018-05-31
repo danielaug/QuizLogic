@@ -50,7 +50,9 @@ public class ChooseOpponentActivity extends AppCompatActivity {
         userList = dbHandler.getPLayer();
 
         for (User user: userList){
-            userNameList.add(user.getUsername());
+            if (!user.getUsername().equals(dbHandler.getOpponentName(userNameID))){
+                userNameList.add(user.getUsername());
+            }
         }
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, userNameList);

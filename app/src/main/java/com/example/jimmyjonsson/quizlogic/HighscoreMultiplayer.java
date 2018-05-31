@@ -17,7 +17,6 @@ public class HighscoreMultiplayer extends AppCompatActivity {
 
     private TextView displayPlayerOne;
     private TextView displayPlayerTwo;
-    ArrayList<User> userArrayList;
     DBHandler dbHandler;
     private int[] resultArray;
     private String defaultString;
@@ -34,6 +33,7 @@ public class HighscoreMultiplayer extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button12);
         defaultString = "No values found.";
         resultArray = new int[5];
+        dbHandler = new DBHandler();
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -45,22 +45,11 @@ public class HighscoreMultiplayer extends AppCompatActivity {
         });
 
         try {
+            System.out.println("User ID passed to the function: " + userNameID);
             resultArray = getMatchInformation(userNameID);
         } catch (NullPointerException ex){
-            try {
-                System.out.println(resultArray[0]);
-                System.out.println("Value at position 0 found.");
-                System.out.println(resultArray[1]);
-                System.out.println("Value at position 1 found.");
-                System.out.println(resultArray[2]);
-                System.out.println("Value at position 2 found.");
-                System.out.println(resultArray[3]);
-                System.out.println("Value at position 3 found.");
-                System.out.println(resultArray[4]);
-                System.out.println("Value at position 4 found.");
-            } catch (NullPointerException e){
-                System.out.println("Null pointer exception in resultArray");
-            }
+            System.out.println("Null pointer exception encountered.");
+            ex.printStackTrace();
         }
 
         try {
