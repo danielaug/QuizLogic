@@ -53,8 +53,8 @@ public class HighscoreMultiplayer extends AppCompatActivity {
         }
 
         try {
-            displayPlayerOne.setText("User: " + dbHandler.getOpponentName(resultArray[1]) + "\t Score:" + resultArray[3]);
-            displayPlayerTwo.setText("User: " + dbHandler.getOpponentName(resultArray[2]) + "\t Score:" + resultArray[4]);
+            displayPlayerOne.setText("Your score: " + resultArray[3]);
+            displayPlayerTwo.setText("Opponent " + dbHandler.getOpponentName(resultArray[2]) + "\t Score: " + resultArray[4]);
         } catch (NullPointerException ex){
             displayPlayerOne.setText(defaultString);
             displayPlayerTwo.setText(defaultString);

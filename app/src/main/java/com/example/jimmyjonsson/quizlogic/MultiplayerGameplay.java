@@ -168,7 +168,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             countDownValue = 0;
             counter = 0;
-            timer.cancel();
+
 
             int highscore1=-1;
             int highscore2=-1;
@@ -251,12 +251,14 @@ public class MultiplayerGameplay extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int i) {
+                                Intent intent = new Intent(MultiplayerGameplay.this, GameOptionActivity.class);
+                                startActivity(intent);
                                 dialog.dismiss();
                             }
                         });
+
                 alertDialog.show();
-                Intent intent = new Intent(MultiplayerGameplay.this, GameOptionActivity.class);
-                startActivity(intent);
+
             }
         }
     }

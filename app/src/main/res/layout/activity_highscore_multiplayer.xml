@@ -28,7 +28,8 @@
             android:padding="16dp"
             android:text="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="#424242" />
+            android:textColor="#424242"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/textPlayerTwo"
@@ -39,7 +40,8 @@
             android:text="2"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
 
-            android:textColor="#424242" />
+            android:textColor="#424242"
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/button12"
