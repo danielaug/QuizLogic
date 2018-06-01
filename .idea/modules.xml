@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/QuizLogic.iml" filepath="$PROJECT_DIR$/QuizLogic.iml" />
-      <module fileurl="file://$PROJECT_DIR$/QuizLogic1.iml" filepath="$PROJECT_DIR$/QuizLogic1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../Daniel/Desktop/project software engineering/QuizLogic/QuizLogic1.iml" filepath="$PROJECT_DIR$/../../../Daniel/Desktop/project software engineering/QuizLogic/QuizLogic1.iml" />
+      <module fileurl="file://C:\Users\Daniel\Desktop\project software engineering\QuizLogic\QuizLogic1.iml" filepath="C:\Users\Daniel\Desktop\project software engineering\QuizLogic\QuizLogic1.iml" />
+      <module fileurl="file://C:\Users\robin\Desktop\QuizLogic\QuizLogic1.iml" filepath="C:\Users\robin\Desktop\QuizLogic\QuizLogic1.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -61,7 +61,7 @@ public class GameOptionActivity extends AppCompatActivity {
                         handler.removeCallbacksAndMessages(this);
                     } else {
                         System.out.println("Nothing thread 1");
-                        handler.postDelayed(this, 40000);
+                        handler.postDelayed(this, 10000);
 
                     }
 

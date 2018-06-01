@@ -1,8 +1,10 @@
 package com.example.jimmyjonsson.quizlogic;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,10 +70,6 @@ public class MultiplayerGameplay extends AppCompatActivity {
         dbHandler = new DBHandler();
 
 
-        currentQuestionNumber = counter;
-        currentScore = currentScoreCounter;
-        countDownValue = countDownValueSaver;
-
 
         sharedPreferences = getSharedPreferences("pref",MODE_PRIVATE);
         currentUser = sharedPreferences.getString("userName",null);
@@ -87,35 +85,6 @@ public class MultiplayerGameplay extends AppCompatActivity {
         countDownTextView = (TextView)findViewById(R.id.counter);
         progressBar.setVisibility(View.GONE);
 
-
-
-
-
-        //Countdown from 100,
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        countDownValue--;
-                        countDownTextView.setText("" + countDownValue);
-
-                        if (countDownValue == 0){
-                            counter=0;
-                            if (checkHighScore(userNameID, currentScore)) {
-                                updateHighScore(userNameID, currentScore);
-                            }
-                            Intent intentToResult = new Intent(context, HighscoreActivity.class);
-                            intentToResult.putExtra("score",currentScore);
-                            context.startActivity(intentToResult);
-                            timer.cancel();
-                        }
-                    }
-                });
-            }
-        },0, 1000);
 
         updateQuestion(); //invokes as soon as a button is pressed
         //updateScore(currentScore);// show current total score for the user
@@ -254,7 +223,7 @@ public class MultiplayerGameplay extends AppCompatActivity {
                     System.out.println("delete multiplayer opponent user didnt work");
                 }
 
-                Intent intent = new Intent(MultiplayerGameplay.this, GameOptionActivity.class);
+                Intent intent = new Intent(MultiplayerGameplay.this, HighscoreMultiplayer.class);
                 intent.putExtra("score", currentScore); // pass the current score to the second screen
                 startActivity(intent);
             } else {
@@ -275,8 +244,18 @@ public class MultiplayerGameplay extends AppCompatActivity {
                 dbHandler.createMatchTable(userNameID,0,currentScore,0);
                 dbHandler.deletePLayerFromInvite(userNameID);
                 progressBar.setVisibility(View.GONE);
+                AlertDialog alertDialog = new AlertDialog.Builder(MultiplayerGameplay.this).create();
+                alertDialog.setTitle("Your match is still in progress!");
+                alertDialog.setMessage("Please check in on multiplayer highscore after a while to see your result.");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int i) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
                 Intent intent = new Intent(MultiplayerGameplay.this, GameOptionActivity.class);
-                System.out.println("Your match is still in progress");
                 startActivity(intent);
             }
         }
