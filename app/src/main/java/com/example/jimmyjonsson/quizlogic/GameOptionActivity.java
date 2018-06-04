@@ -54,8 +54,20 @@ public class GameOptionActivity extends AppCompatActivity {
                     boolean inviteCheckerOpponent = dbHandler.checkInvite(opponentID2);
 
                     if (inviteCheckerOpponent && inviteChecker) {
-                        Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);
-                        startActivity(intent);
+                        String opp = dbHandler.getOpponentName(opponentID2);
+                        AlertDialog alertDialog = new AlertDialog.Builder(GameOptionActivity.this).create();
+                        alertDialog.setTitle(opp + " has accepted your challenge!");
+                        alertDialog.setMessage("Are you ready?");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        Intent intent = new Intent(GameOptionActivity.this, MultiplayerGameplay.class);
+                                        startActivity(intent);
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
                     } else if (inviteChecker && !inviteCheckerOpponent) {
                         notifyMe();
                         handler.removeCallbacksAndMessages(this);
